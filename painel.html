@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Leads | Victor Petra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#07111C;--ink2:#0B1C2E;--ink3:#112538;--ink4:#162D45;
+  --white:#FFFFFF;--surface:#F2F5F9;
+  --teal:#0DCFB9;--teal-dark:#0AB0A0;--teal-dim:rgba(13,207,185,.12);--teal-bd:rgba(13,207,185,.25);
+  --muted:#6B87A4;--muted2:#8FA8C2;
+  --rule:rgba(255,255,255,.07);
+  --c1:#0DCFB9;--c1b:rgba(13,207,185,.15);
+  --c2:#4F8EFF;--c2b:rgba(79,142,255,.15);
+  --c3:#A78BFA;--c3b:rgba(167,139,250,.15);
+  --c4:#4ADE80;--c4b:rgba(74,222,128,.15);
+}
+html{height:100%}
+body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--white);height:100%;-webkit-font-smoothing:antialiased;overflow:hidden}
+
+/* LOGIN */
+#login{position:fixed;inset:0;background:var(--ink);display:flex;align-items:center;justify-content:center;z-index:200}
+.login-box{background:var(--ink2);border:1px solid var(--rule);border-radius:16px;padding:2.5rem 2rem;width:100%;max-width:380px;text-align:center}
+.login-logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;margin-bottom:.4rem}
+.login-logo span{color:var(--teal)}
+.login-sub{font-size:.8rem;color:var(--muted);margin-bottom:2rem}
+.login-box input{width:100%;background:var(--ink3);border:1px solid var(--rule);border-radius:9px;padding:.875rem 1rem;font-size:.9rem;color:var(--white);font-family:'Inter',sans-serif;outline:none;text-align:center;letter-spacing:.1em;transition:border-color .2s;margin-bottom:1rem}
+.login-box input:focus{border-color:var(--teal)}
+.login-box input::placeholder{letter-spacing:normal;color:var(--muted)}
+.login-btn{width:100%;background:var(--teal);color:var(--ink);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.925rem;padding:.875rem;border-radius:7px;border:none;cursor:pointer;transition:background .2s}
+.login-btn:hover{background:var(--teal-dark)}
+.login-err{font-size:.78rem;color:#F87171;margin-top:.75rem;min-height:1.2em}
+
+/* PANEL LAYOUT */
+#panel{display:none;flex-direction:column;height:100vh}
+
+/* TOP BAR */
+.topbar{display:flex;align-items:center;gap:1rem;padding:.875rem 1.5rem;background:rgba(7,17,28,.95);border-bottom:1px solid var(--rule);flex-shrink:0;flex-wrap:wrap}
+.tb-logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.875rem;margin-right:auto}
+.tb-logo span{color:var(--teal)}
+.tb-stats{display:flex;gap:1rem;align-items:center}
+.tb-stat{font-size:.72rem;color:var(--muted);display:flex;align-items:center;gap:.35rem}
+.tb-stat strong{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--white);font-size:.85rem}
+.tb-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--teal);color:var(--ink);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.78rem;padding:.5rem 1rem;border-radius:6px;border:none;cursor:pointer;transition:background .2s;white-space:nowrap}
+.tb-btn:hover{background:var(--teal-dark)}
+.tb-btn svg{width:14px;height:14px;stroke:var(--ink);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.tb-ghost{background:transparent;border:1px solid var(--rule);color:var(--muted);font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.75rem;padding:.5rem .875rem;border-radius:6px;cursor:pointer;transition:all .2s}
+.tb-ghost:hover{border-color:var(--muted2);color:var(--muted2)}
+
+/* KANBAN */
+.kanban{display:flex;gap:1rem;padding:1rem 1.5rem;overflow-x:auto;flex:1;align-items:flex-start;min-height:0}
+.kanban::-webkit-scrollbar{height:5px}
+.kanban::-webkit-scrollbar-track{background:transparent}
+.kanban::-webkit-scrollbar-thumb{background:var(--ink3);border-radius:4px}
+
+.col{flex:0 0 300px;display:flex;flex-direction:column;gap:.75rem;max-height:100%;overflow:hidden}
+.col-head{display:flex;align-items:center;justify-content:space-between;padding:.625rem .875rem;border-radius:8px;flex-shrink:0}
+.col-head-novo{background:rgba(13,207,185,.1);border:1px solid rgba(13,207,185,.2)}
+.col-head-conversa{background:rgba(79,142,255,.1);border:1px solid rgba(79,142,255,.2)}
+.col-head-proposta{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.2)}
+.col-head-cliente{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.2)}
+.col-title{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.04em}
+.col-title-novo{color:var(--c1)}
+.col-title-conversa{color:var(--c2)}
+.col-title-proposta{color:var(--c3)}
+.col-title-cliente{color:var(--c4)}
+.col-badge{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.cb-novo{background:var(--c1);color:var(--ink)}
+.cb-conversa{background:var(--c2);color:var(--white)}
+.cb-proposta{background:var(--c3);color:var(--white)}
+.cb-cliente{background:var(--c4);color:var(--ink)}
+.col-cards{display:flex;flex-direction:column;gap:.625rem;overflow-y:auto;padding-bottom:.5rem;flex:1;min-height:60px}
+.col-cards::-webkit-scrollbar{width:3px}
+.col-cards::-webkit-scrollbar-thumb{background:var(--ink3);border-radius:4px}
+.col-empty{display:flex;align-items:center;justify-content:center;border:1.5px dashed var(--rule);border-radius:10px;height:80px;font-size:.78rem;color:var(--muted)}
+
+/* LEAD CARD */
+.card{background:var(--ink2);border:1px solid var(--rule);border-radius:10px;padding:1rem;cursor:pointer;transition:border-color .2s,transform .15s;position:relative}
+.card:hover{border-color:var(--teal-bd);transform:translateY(-1px)}
+.card-origem{position:absolute;top:.75rem;right:.75rem;font-size:.6rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--ink3);border:1px solid var(--rule);border-radius:4px;padding:.15rem .45rem}
+.card-empresa{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.9rem;color:var(--white);margin-bottom:.2rem;padding-right:3rem}
+.card-nome{font-size:.78rem;color:var(--muted2);margin-bottom:.75rem}
+.card-seg{display:inline-flex;align-items:center;font-size:.7rem;font-weight:600;color:var(--muted);background:var(--ink3);border:1px solid var(--rule);border-radius:5px;padding:.2rem .55rem;margin-bottom:.75rem}
+.card-mat{display:flex;align-items:center;gap:.35rem;margin-bottom:.75rem}
+.mat-mini{display:flex;gap:.2rem}
+.mat-mini-dot{width:14px;height:5px;border-radius:3px;background:var(--rule)}
+.mat-mini-dot.on{background:var(--teal)}
+.mat-mini-label{font-size:.68rem;color:var(--muted);font-weight:500}
+.card-pains{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.875rem}
+.pain-tag{font-size:.65rem;font-weight:500;color:var(--muted2);background:var(--ink3);border:1px solid var(--rule);border-radius:4px;padding:.2rem .5rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-footer{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.card-date{font-size:.68rem;color:var(--muted)}
+.card-wh{display:inline-flex;align-items:center;gap:.3rem;background:#25D366;color:#fff;font-size:.72rem;font-weight:700;font-family:'Space Grotesk',sans-serif;padding:.35rem .75rem;border-radius:5px;border:none;cursor:pointer;text-decoration:none;transition:background .2s}
+.card-wh:hover{background:#1EB35B}
+.card-wh svg{width:12px;height:12px;fill:currentColor}
+
+/* MODAL */
+#modal-bg{display:none;position:fixed;inset:0;background:rgba(7,17,28,.85);z-index:100;overflow-y:auto;padding:1.5rem}
+#modal-bg.open{display:flex;align-items:flex-start;justify-content:center}
+.modal{background:var(--ink2);border:1px solid var(--rule);border-radius:16px;width:100%;max-width:560px;padding:2rem;position:relative;margin:auto}
+.modal-close{position:absolute;top:1rem;right:1rem;background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:1.25rem;line-height:1;padding:.25rem}
+.modal-close:hover{color:var(--white)}
+.modal-tag{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:.5rem}
+.modal-empresa{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.4rem;color:var(--white);margin-bottom:.25rem}
+.modal-nome{font-size:.875rem;color:var(--muted2);margin-bottom:1.5rem}
+.modal-section{font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem;margin-top:1.25rem}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:.625rem;margin-bottom:.5rem}
+.modal-field{background:var(--ink3);border:1px solid var(--rule);border-radius:8px;padding:.75rem 1rem}
+.mf-label{font-size:.65rem;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.3rem}
+.mf-value{font-size:.85rem;color:var(--white);font-weight:500}
+.modal-mat{display:flex;align-items:center;gap:.75rem;background:var(--teal-dim);border:1px solid var(--teal-bd);border-radius:8px;padding:.875rem 1rem;margin-bottom:.5rem}
+.modal-mat-dots{display:flex;gap:.25rem}
+.modal-mat-dot{width:22px;height:7px;border-radius:3px;background:var(--rule)}
+.modal-mat-dot.on{background:var(--teal)}
+.modal-mat-text{font-size:.85rem;color:var(--white);font-weight:600}
+.modal-pains{display:flex;flex-wrap:wrap;gap:.4rem}
+.modal-pain-tag{font-size:.75rem;font-weight:500;color:var(--muted2);background:var(--ink3);border:1px solid var(--rule);border-radius:5px;padding:.3rem .65rem}
+.modal-notes{width:100%;background:var(--ink3);border:1px solid var(--rule);border-radius:9px;padding:.875rem 1rem;font-size:.875rem;color:var(--white);font-family:'Inter',sans-serif;outline:none;resize:vertical;min-height:80px;transition:border-color .2s;margin-bottom:.25rem}
+.modal-notes:focus{border-color:var(--teal)}
+.modal-notes::placeholder{color:var(--muted)}
+.modal-actions{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--rule)}
+.act-btn{display:inline-flex;align-items:center;gap:.4rem;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.78rem;padding:.5rem 1rem;border-radius:6px;border:1px solid var(--rule);background:var(--ink3);color:var(--muted2);cursor:pointer;transition:all .2s;white-space:nowrap}
+.act-btn:hover{border-color:var(--teal-bd);color:var(--white)}
+.act-btn.active{border-color:var(--teal);color:var(--teal);background:var(--teal-dim)}
+.act-del{color:#F87171;border-color:rgba(248,113,113,.2)}
+.act-del:hover{border-color:#F87171;background:rgba(248,113,113,.1);color:#F87171}
+.act-save{background:var(--teal);color:var(--ink);border-color:var(--teal);margin-left:auto}
+.act-save:hover{background:var(--teal-dark)}
+.act-wh{background:#25D366;color:#fff;border-color:#25D366}
+.act-wh:hover{background:#1EB35B}
+.act-wh svg,.card-wh svg{fill:currentColor;width:13px;height:13px}
+
+/* ADD FORM */
+.add-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.add-field{display:flex;flex-direction:column;gap:.35rem}
+.add-field label{font-size:.72rem;font-weight:600;color:var(--muted);letter-spacing:.04em}
+.add-field input,.add-field select{background:var(--ink3);border:1px solid var(--rule);border-radius:8px;padding:.75rem .875rem;font-size:.85rem;color:var(--white);font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.add-field input:focus,.add-field select:focus{border-color:var(--teal)}
+.add-field input::placeholder{color:var(--muted)}
+.add-full{grid-column:1/-1}
+select option{background:var(--ink2)}
+.pain-check-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-top:.5rem}
+.pck{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--muted2);cursor:pointer;padding:.4rem .5rem;border-radius:6px;border:1px solid var(--rule);transition:all .15s;background:var(--ink3)}
+.pck:hover,.pck.on{border-color:var(--teal-bd);color:var(--white);background:var(--teal-dim)}
+.pck-box{width:14px;height:14px;border-radius:3px;border:1.5px solid var(--muted);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.pck.on .pck-box{background:var(--teal);border-color:var(--teal)}
+.pck.on .pck-box::after{content:'✓';font-size:.6rem;color:var(--ink);font-weight:900}
+
+@media(max-width:600px){
+  .kanban{padding:.75rem;gap:.75rem}
+  .col{flex:0 0 260px}
+  .topbar{padding:.75rem 1rem}
+  .tb-stats{display:none}
+  .modal{padding:1.5rem}
+  .modal-grid,.add-grid,.pain-check-grid{grid-template-columns:1fr}
+}
+</style>
+
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+  <div class="login-box">
+    <div class="login-logo">Victor Petra <span>|</span> Painel</div>
+    <div class="login-sub">Acesso restrito</div>
+    <input type="password" id="pwd-input" placeholder="Digite a senha" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Entrar</button>
+    <div class="login-err" id="login-err"></div>
+  </div>
+</div>
+
+<!-- PANEL -->
+<div id="panel">
+  <div class="topbar">
+    <div class="tb-logo">Victor Petra <span>|</span> Painel de Leads</div>
+    <div class="tb-stats" id="tb-stats"></div>
+    <button class="tb-ghost" onclick="exportarCSV()">Exportar CSV</button>
+    <button class="tb-btn" onclick="abrirModal('add')">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Novo lead
+    </button>
+  </div>
+  <div class="kanban" id="kanban">
+    <div class="col">
+      <div class="col-head col-head-novo"><span class="col-title col-title-novo">Novo Lead</span><span class="col-badge cb-novo" id="badge-novo">0</span></div>
+      <div class="col-cards" id="col-novo"><div class="col-empty">Nenhum lead ainda</div></div>
+    </div>
+    <div class="col">
+      <div class="col-head col-head-conversa"><span class="col-title col-title-conversa">Em Conversa</span><span class="col-badge cb-conversa" id="badge-conversa">0</span></div>
+      <div class="col-cards" id="col-conversa"><div class="col-empty">Nenhum lead</div></div>
+    </div>
+    <div class="col">
+      <div class="col-head col-head-proposta"><span class="col-title col-title-proposta">Proposta Enviada</span><span class="col-badge cb-proposta" id="badge-proposta">0</span></div>
+      <div class="col-cards" id="col-proposta"><div class="col-empty">Nenhum lead</div></div>
+    </div>
+    <div class="col">
+      <div class="col-head col-head-cliente"><span class="col-title col-title-cliente">Cliente</span><span class="col-badge cb-cliente" id="badge-cliente">0</span></div>
+      <div class="col-cards" id="col-cliente"><div class="col-empty">Nenhum lead</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal-bg" onclick="if(event.target===this)fecharModal()">
+  <div class="modal" id="modal-box"></div>
+</div>
+
+<script>
+const SENHA='victor2025';
+const PAIN_LABELS={info_perde:'Perda de informação',retrabalho:'Retrabalho',sem_visib:'Sem visibilidade',dep_pessoa:'Dependência de pessoas',sobrecarr:'Equipe sobrecarregada',crescer:'Difícil crescer',achismo:'Decisões sem dados'};
+const COLUNAS=['novo','conversa','proposta','cliente'];
+let leads=[];
+let editId=null;
+
+function doLogin(){
+  const v=document.getElementById('pwd-input').value;
+  if(v===SENHA){
+    document.getElementById('login').style.display='none';
+    document.getElementById('panel').style.display='flex';
+    sessionStorage.setItem('vp_auth','1');
+    carregarLeads();
+  } else {
+    document.getElementById('login-err').textContent='Senha incorreta.';
+    setTimeout(()=>document.getElementById('login-err').textContent='',2000);
+  }
+}
+document.getElementById('pwd-input').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+
+if(sessionStorage.getItem('vp_auth')==='1'){
+  document.getElementById('login').style.display='none';
+  document.getElementById('panel').style.display='flex';
+  carregarLeads();
+}
+
+function salvarLeads(){localStorage.setItem('vp_leads',JSON.stringify(leads));}
+
+function carregarLeads(){
+  leads=JSON.parse(localStorage.getItem('vp_leads')||'[]');
+  renderBoard();
+}
+
+function renderBoard(){
+  COLUNAS.forEach(col=>{
+    const el=document.getElementById('col-'+col);
+    const colLeads=leads.filter(l=>l.coluna===col);
+    document.getElementById('badge-'+col).textContent=colLeads.length;
+    if(colLeads.length===0){el.innerHTML='<div class="col-empty">Nenhum lead</div>';return;}
+    el.innerHTML=colLeads.map(l=>cardHTML(l)).join('');
+  });
+  // Stats
+  const total=leads.length;
+  const clientes=leads.filter(l=>l.coluna==='cliente').length;
+  document.getElementById('tb-stats').innerHTML=`
+    <div class="tb-stat"><strong>${total}</strong> leads</div>
+    <div class="tb-stat" style="color:var(--teal)"><strong>${clientes}</strong> clientes</div>
+  `;
+}
+
+function cardHTML(l){
+  const pains=(l.pain||[]).slice(0,2).map(p=>`<span class="pain-tag">${PAIN_LABELS[p]||p}</span>`).join('');
+  const dots=[1,2,3,4,5].map(i=>`<div class="mat-mini-dot${i<=(l.nivel||0)?' on':''}"></div>`).join('');
+  const wh=(l.wh||'').replace(/\D/g,'');
+  const whLink=wh?`https://wa.me/55${wh}`:'#';
+  return`<div class="card" onclick="abrirModal('edit','${l.id}')">
+    <div class="card-origem">${l.origem==='manual'?'Manual':'Diagnóstico'}</div>
+    <div class="card-empresa">${l.empresa||'—'}</div>
+    <div class="card-nome">${l.nome||''}</div>
+    ${l.seg?`<div class="card-seg">${l.seg}</div>`:''}
+    ${l.nivel?`<div class="card-mat"><div class="mat-mini">${dots}</div><span class="mat-mini-label">${l.nivel}/5 — ${l.nome_nivel||''}</span></div>`:''}
+    ${pains?`<div class="card-pains">${pains}</div>`:''}
+    <div class="card-footer">
+      <span class="card-date">${l.data||''} ${l.hora||''}</span>
+      ${wh?`<a class="card-wh" href="${whLink}" target="_blank" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.126 1.523 5.867L.057 23.857a.5.5 0 0 0 .609.61l6.098-1.463A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.9 0-3.7-.5-5.27-1.38l-.38-.22-3.92.94.97-3.82-.24-.39A10 10 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg> WhatsApp</a>`:''}
+    </div>
+  </div>`;
+}
+
+function abrirModal(tipo,id){
+  editId=id||null;
+  const mb=document.getElementById('modal-bg');
+  const box=document.getElementById('modal-box');
+  if(tipo==='edit'){
+    const l=leads.find(x=>String(x.id)===String(id));
+    if(!l)return;
+    const wh=(l.wh||'').replace(/\D/g,'');
+    const whLink=wh?`https://wa.me/55${wh}`:'#';
+    const dots=[1,2,3,4,5].map(i=>`<div class="modal-mat-dot${i<=(l.nivel||0)?' on':''}"></div>`).join('');
+    const painTags=(l.pain||[]).map(p=>`<span class="modal-pain-tag">${PAIN_LABELS[p]||p}</span>`).join('');
+    const infoTxt=(l.info||[]).join(', ')||'—';
+    const docMap={'0':'Nada documentado','1':'Parcialmente documentado','2':'Maioria documentada (desatualizada)','3':'Totalmente documentado'};
+    const decMap={'0':'Intuição/experiência','1':'Reuniões sem dados','2':'Planilhas','3':'Dashboards em tempo real'};
+    const colBtns=COLUNAS.map(c=>`<button class="act-btn${l.coluna===c?' active':''}" onclick="moverLead('${l.id}','${c}')">${{novo:'Novo',conversa:'Em Conversa',proposta:'Proposta',cliente:'Cliente'}[c]}</button>`).join('');
+    box.innerHTML=`
+      <button class="modal-close" onclick="fecharModal()">×</button>
+      <div class="modal-tag">${l.origem==='manual'?'Lead manual':'Via diagnóstico'} · ${l.data||''} ${l.hora||''}</div>
+      <div class="modal-empresa">${l.empresa||'—'}</div>
+      <div class="modal-nome">${l.nome||''} · ${l.wh||''}</div>
+      <div class="modal-section">Maturidade</div>
+      <div class="modal-mat"><div class="modal-mat-dots">${dots}</div><div class="modal-mat-text">${l.nivel||'—'}/5 — ${l.nome_nivel||'—'}</div></div>
+      <div class="modal-section">Dados da empresa</div>
+      <div class="modal-grid">
+        <div class="modal-field"><div class="mf-label">Segmento</div><div class="mf-value">${l.seg||'—'}</div></div>
+        <div class="modal-field"><div class="mf-label">Tamanho</div><div class="mf-value">${l.size||'—'}</div></div>
+        <div class="modal-field"><div class="mf-label">Informação circula via</div><div class="mf-value">${infoTxt}</div></div>
+        <div class="modal-field"><div class="mf-label">Documentação</div><div class="mf-value">${docMap[l.doc]||'—'}</div></div>
+        <div class="modal-field" style="grid-column:1/-1"><div class="mf-label">Tomada de decisão</div><div class="mf-value">${decMap[l.dec]||'—'}</div></div>
+      </div>
+      ${painTags?`<div class="modal-section">Principais dores</div><div class="modal-pains">${painTags}</div>`:''}
+      <div class="modal-section">Anotações</div>
+      <textarea class="modal-notes" id="modal-notes" placeholder="Registre observações, próximos passos, histórico...">${l.notas||''}</textarea>
+      <div class="modal-section">Mover para</div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">${colBtns}</div>
+      <div class="modal-actions">
+        <button class="act-btn act-del" onclick="deletarLead('${l.id}')">Excluir lead</button>
+        ${wh?`<a class="act-btn act-wh" href="${whLink}" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.126 1.523 5.867L.057 23.857a.5.5 0 0 0 .609.61l6.098-1.463A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.9 0-3.7-.5-5.27-1.38l-.38-.22-3.92.94.97-3.82-.24-.39A10 10 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg> Abrir WhatsApp</a>`:''}
+        <button class="act-btn act-save" onclick="salvarNotas('${l.id}')">Salvar anotações</button>
+      </div>`;
+  } else {
+    // Add manual lead
+    box.innerHTML=`
+      <button class="modal-close" onclick="fecharModal()">×</button>
+      <div class="modal-tag">Adicionar lead manualmente</div>
+      <div class="modal-empresa" style="font-size:1.1rem;margin-bottom:1.25rem">Novo Lead</div>
+      <div class="add-grid">
+        <div class="add-field add-full"><label>Nome</label><input type="text" id="add-nome" placeholder="Nome do contato"></div>
+        <div class="add-field add-full"><label>Empresa</label><input type="text" id="add-emp" placeholder="Nome da empresa"></div>
+        <div class="add-field"><label>WhatsApp</label><input type="tel" id="add-wh" placeholder="(67) 99999-9999"></div>
+        <div class="add-field"><label>Segmento</label>
+          <select id="add-seg">
+            <option value="">Selecione</option>
+            <option>Comércio/Varejo</option><option>Serviços</option><option>Indústria/Manufatura</option>
+            <option>Alimentação/Gastronomia</option><option>Saúde</option><option>Tecnologia</option>
+            <option>Construção/Imóveis</option><option>Outro</option>
+          </select>
+        </div>
+        <div class="add-field add-full"><label>Principais dores</label>
+          <div class="pain-check-grid" id="pain-checks">
+            ${Object.entries(PAIN_LABELS).map(([k,v])=>`<label class="pck" data-key="${k}" onclick="togglePck(this)"><div class="pck-box"></div>${v}</label>`).join('')}
+          </div>
+        </div>
+        <div class="add-field add-full"><label>Anotações</label><textarea class="modal-notes" id="add-notas" placeholder="Contexto inicial, como chegou, próximos passos..."></textarea></div>
+      </div>
+      <div class="modal-actions">
+        <button class="act-btn act-save" onclick="salvarNovoLead()" style="margin-left:0">Adicionar lead</button>
+      </div>`;
+  }
+  mb.classList.add('open');
+}
+
+function togglePck(el){el.classList.toggle('on');}
+
+function fecharModal(){document.getElementById('modal-bg').classList.remove('open');}
+
+function moverLead(id,col){
+  const l=leads.find(x=>String(x.id)===String(id));
+  if(l){l.coluna=col;salvarLeads();renderBoard();}
+  // Update button states in modal without closing
+  document.querySelectorAll('.act-btn').forEach(b=>{
+    if(['novo','conversa','proposta','cliente'].some(c=>b.textContent.trim().toLowerCase().includes(c.substring(0,4)))){
+      b.classList.remove('active');
+    }
+  });
+  event.target.classList.add('active');
+}
+
+function salvarNotas(id){
+  const l=leads.find(x=>String(x.id)===String(id));
+  if(l){l.notas=document.getElementById('modal-notes').value;salvarLeads();renderBoard();}
+  const btn=event.target;btn.textContent='Salvo ✓';setTimeout(()=>btn.textContent='Salvar anotações',1500);
+}
+
+function deletarLead(id){
+  if(!confirm('Excluir este lead?'))return;
+  leads=leads.filter(x=>String(x.id)!==String(id));
+  salvarLeads();renderBoard();fecharModal();
+}
+
+function salvarNovoLead(){
+  const pains=[...document.querySelectorAll('#pain-checks .pck.on')].map(el=>el.dataset.key);
+  const lead={
+    id:Date.now(),
+    nome:document.getElementById('add-nome').value.trim(),
+    empresa:document.getElementById('add-emp').value.trim(),
+    wh:document.getElementById('add-wh').value.trim(),
+    seg:document.getElementById('add-seg').value,
+    pain:pains,info:[],doc:'',dec:'',nivel:0,nome_nivel:'',
+    data:new Date().toLocaleDateString('pt-BR'),
+    hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),
+    coluna:'novo',notas:document.getElementById('add-notas').value.trim(),
+    origem:'manual'
+  };
+  if(!lead.nome&&!lead.empresa){alert('Preencha pelo menos o nome ou a empresa.');return;}
+  leads.unshift(lead);salvarLeads();renderBoard();fecharModal();
+}
+
+function exportarCSV(){
+  const cols=['ID','Nome','Empresa','WhatsApp','Segmento','Tamanho','Maturidade','Nível','Dores','Coluna','Data','Anotações'];
+  const rows=leads.map(l=>[l.id,l.nome,l.empresa,l.wh,l.seg,l.size,l.nivel,l.nome_nivel,(l.pain||[]).map(p=>PAIN_LABELS[p]||p).join('; '),l.coluna,l.data,l.notas].map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(','));
+  const csv=[cols.join(','),...rows].join('\n');
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
+  a.download=`leads_victorpetra_${new Date().toLocaleDateString('pt-BR').replace(/\//g,'-')}.csv`;a.click();
+}
+</script>
+</body>
+</html>

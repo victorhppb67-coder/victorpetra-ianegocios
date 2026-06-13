@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico de Processos | Victor Petra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#07111C;--ink2:#0B1C2E;--ink3:#112538;
+  --white:#FFFFFF;
+  --teal:#0DCFB9;--teal-dark:#0AB0A0;--teal-dim:rgba(13,207,185,.12);--teal-bd:rgba(13,207,185,.25);
+  --muted:#6B87A4;--muted2:#8FA8C2;
+  --rule-dark:rgba(255,255,255,.07);
+  --danger:#F87171;--danger-bg:rgba(248,113,113,.1);--danger-bd:rgba(248,113,113,.25);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--white);min-height:100vh;-webkit-font-smoothing:antialiased}
+nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;border-bottom:1px solid var(--rule-dark)}
+.logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.9rem;color:var(--white);text-decoration:none}
+.logo span{color:var(--teal)}
+.nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:.4rem;transition:color .2s}
+.nav-back:hover{color:var(--teal)}
+.nav-back svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pw{padding:1.5rem 2rem 0;max-width:680px;margin:0 auto}
+.pt{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem}
+.pl{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.pc{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;color:var(--teal)}
+.pb{height:3px;background:var(--rule-dark);border-radius:2px;overflow:hidden}
+.pf{height:100%;background:var(--teal);border-radius:2px;transition:width .4s ease}
+.main{max-width:680px;margin:0 auto;padding:2.5rem 2rem 4rem}
+.step{display:none}
+.step.active{display:block;animation:fi .3s ease}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.stag{font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.75rem}
+.stitle{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,4vw,2rem);font-weight:700;letter-spacing:-.025em;line-height:1.2;margin-bottom:.75rem}
+.ssub{font-size:.925rem;color:var(--muted2);line-height:1.7;margin-bottom:2rem}
+.ql{font-size:.78rem;font-weight:600;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:.75rem;margin-top:1.75rem}
+.ql:first-of-type{margin-top:0}
+.opts{display:flex;flex-direction:column;gap:.625rem;margin-bottom:.5rem}
+.opts2{display:grid;grid-template-columns:1fr 1fr;gap:.625rem;margin-bottom:.5rem}
+.opt{display:flex;align-items:center;gap:.875rem;padding:1rem 1.25rem;background:var(--ink2);border:1px solid var(--rule-dark);border-radius:10px;cursor:pointer;transition:all .18s;user-select:none}
+.opt:hover{border-color:var(--teal-bd);background:var(--ink3)}
+.opt.sel{border-color:var(--teal);background:var(--teal-dim)}
+.opr{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--rule-dark);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .18s}
+.opt.sel .opr{background:var(--teal);border-color:var(--teal)}
+.opr svg,.opc svg{width:10px;height:10px;stroke:var(--ink);fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:0;transition:opacity .18s}
+.opt.sel .opr svg,.opt.sel .opc svg{opacity:1}
+.opc{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--rule-dark);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .18s}
+.opt.sel .opc{background:var(--teal);border-color:var(--teal)}
+.otx{font-size:.875rem;color:var(--muted2);font-weight:500;transition:color .18s;line-height:1.4}
+.opt.sel .otx{color:var(--white)}
+.mh{font-size:.72rem;color:var(--muted);margin-bottom:.75rem;margin-top:.25rem}
+.fld{margin-bottom:1.125rem}
+.fld label{display:block;font-size:.78rem;font-weight:600;color:var(--muted);margin-bottom:.45rem;letter-spacing:.03em}
+.fld input{width:100%;background:var(--ink2);border:1px solid var(--rule-dark);border-radius:9px;padding:.875rem 1rem;font-size:.9rem;color:var(--white);font-family:'Inter',sans-serif;outline:none;transition:border-color .2s}
+.fld input:focus{border-color:var(--teal)}
+.fld input::placeholder{color:var(--muted)}
+.br{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;margin-top:1.75rem}
+.btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--teal);color:var(--ink);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.925rem;padding:.875rem 1.75rem;border-radius:7px;border:none;cursor:pointer;transition:background .2s,transform .15s}
+.btn:hover{background:var(--teal-dark);transform:translateY(-1px)}
+.btn svg{width:15px;height:15px;stroke:var(--ink);fill:none;stroke-width:2.5;stroke-linecap:round}
+.btg{background:transparent;border:1px solid var(--rule-dark);color:var(--muted);font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.875rem;padding:.875rem 1.5rem;border-radius:7px;cursor:pointer;transition:all .2s}
+.btg:hover{border-color:var(--muted2);color:var(--muted2)}
+.bwh{background:#25D366;color:#fff;display:inline-flex;align-items:center;gap:.6rem;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;padding:.95rem 1.75rem;border-radius:7px;border:none;cursor:pointer;text-decoration:none;transition:background .2s}
+.bwh:hover{background:#1EB35B}
+.bwh svg{width:17px;height:17px;fill:currentColor;flex-shrink:0}
+.hint{font-size:.78rem;color:var(--muted);line-height:1.6;margin-top:.875rem}
+.err{display:none;font-size:.8rem;color:var(--danger);background:var(--danger-bg);border:1px solid var(--danger-bd);border-radius:7px;padding:.65rem 1rem;margin-top:1rem}
+
+/* LOADING */
+#step-loading{text-align:center;padding:4rem 1rem}
+.spin{width:44px;height:44px;border:2.5px solid var(--rule-dark);border-top-color:var(--teal);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 1.5rem}
+@keyframes sp{to{transform:rotate(360deg)}}
+.ltitle{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--white);margin-bottom:.75rem}
+.lsub{font-size:.875rem;color:var(--muted);line-height:1.7}
+.ltick{font-size:.8rem;color:var(--teal);margin-top:1.25rem;min-height:1.4em;transition:opacity .3s}
+
+/* RESULT */
+.rh{background:var(--ink2);border:1px solid var(--rule-dark);border-radius:14px;padding:1.75rem;margin-bottom:1.25rem;position:relative;overflow:hidden}
+.rh::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--teal)}
+.rtag{font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:.75rem}
+.rname{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;color:var(--white);margin-bottom:.5rem}
+.rdesc{font-size:.9rem;color:var(--muted2);line-height:1.65}
+.mw{background:var(--ink2);border:1px solid var(--rule-dark);border-radius:14px;padding:1.75rem;margin-bottom:1.25rem}
+.mlb{font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.875rem}
+.mr{display:flex;align-items:center;gap:1rem;margin-bottom:.6rem}
+.md{display:flex;gap:.35rem}
+.mdot{width:30px;height:8px;border-radius:4px;background:var(--rule-dark);transition:background .5s}
+.mdot.on{background:var(--teal)}
+.ms{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--teal)}
+.mdesc{font-size:.875rem;color:var(--muted2);line-height:1.6}
+.isec{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem}
+.iw{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.25rem}
+.ic{background:var(--ink2);border:1px solid var(--rule-dark);border-radius:10px;padding:1.25rem;display:flex;gap:.875rem}
+.ii{width:32px;height:32px;border-radius:8px;background:var(--teal-dim);border:1px solid var(--teal-bd);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ii svg{width:15px;height:15px;stroke:var(--teal);fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.it{font-size:.875rem;color:var(--muted2);line-height:1.65}
+.pc2{background:var(--teal-dim);border:1px solid var(--teal-bd);border-radius:10px;padding:1.25rem 1.375rem;margin-bottom:1.75rem}
+.plb{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:.4rem}
+.ptx{font-size:.9rem;color:var(--white);line-height:1.6;font-weight:500}
+.wb{background:var(--ink2);border:1px solid var(--rule-dark);border-radius:12px;padding:1.75rem;text-align:center}
+.wbdg{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);background:var(--teal-dim);border:1px solid var(--teal-bd);border-radius:5px;padding:.3rem .75rem;margin-bottom:1rem}
+.wbhl{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--white);line-height:1.3;margin-bottom:.75rem}
+.wbp{font-size:.875rem;color:var(--muted2);margin-bottom:1.25rem;line-height:1.65}
+
+@media(max-width:540px){
+  .main{padding:2rem 1.25rem 3rem}
+  nav{padding:.9rem 1.25rem}
+  .pw{padding:1.25rem 1.25rem 0}
+  .opts2{grid-template-columns:1fr}
+}
+</style>
+
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+
+<nav>
+  <a href="victor-petra-landing.html" class="logo">Victor Petra <span>|</span> IA &amp; Negócios</a>
+
+</nav>
+
+<div class="pw">
+  <div class="pt">
+    <span class="pl">Diagnóstico de Processos</span>
+    <span class="pc" id="pc">Etapa 1 de 4</span>
+  </div>
+  <div class="pb"><div class="pf" id="pf" style="width:25%"></div></div>
+</div>
+
+<div class="main">
+
+  <!-- STEP 1 -->
+  <div class="step active" id="step-1">
+    <div class="stag">Etapa 1 — Seu negócio</div>
+    <h1 class="stitle">Vamos começar com o básico</h1>
+    <p class="ssub">Duas perguntas rápidas para entender o contexto da sua empresa.</p>
+    <p class="ql">Segmento</p>
+    <div class="opts2" id="seg-opts">
+      <div class="opt" data-g="seg" data-v="Comércio/Varejo"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Comércio / Varejo</div></div>
+      <div class="opt" data-g="seg" data-v="Serviços"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Serviços</div></div>
+      <div class="opt" data-g="seg" data-v="Indústria/Manufatura"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Indústria / Manufatura</div></div>
+      <div class="opt" data-g="seg" data-v="Alimentação/Gastronomia"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Alimentação / Gastronomia</div></div>
+      <div class="opt" data-g="seg" data-v="Saúde"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Saúde</div></div>
+      <div class="opt" data-g="seg" data-v="Tecnologia"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Tecnologia</div></div>
+      <div class="opt" data-g="seg" data-v="Construção/Imóveis"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Construção / Imóveis</div></div>
+      <div class="opt" data-g="seg" data-v="Outro"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Outro</div></div>
+    </div>
+    <p class="ql">Número de funcionários</p>
+    <div class="opts">
+      <div class="opt" data-g="size" data-v="1"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Só eu — MEI ou autônomo</div></div>
+      <div class="opt" data-g="size" data-v="2-5"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">2 a 5 funcionários</div></div>
+      <div class="opt" data-g="size" data-v="6-20"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">6 a 20 funcionários</div></div>
+      <div class="opt" data-g="size" data-v="21-50"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">21 a 50 funcionários</div></div>
+      <div class="opt" data-g="size" data-v="50+"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Mais de 50 funcionários</div></div>
+    </div>
+    <div class="err" id="err-1">Selecione o segmento e o tamanho da empresa para continuar.</div>
+    <div class="br"><button class="btn" onclick="goTo(2)">Próximo <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button></div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step" id="step-2">
+    <div class="stag">Etapa 2 — Suas dores</div>
+    <h1 class="stitle">Onde a operação trava?</h1>
+    <p class="ssub">Selecione até <strong style="color:var(--white)">3 problemas</strong> que mais impactam seu negócio hoje.</p>
+    <div class="opts" id="pain-opts">
+      <div class="opt" data-g="pain" data-v="info_perde"><div class="opc"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Informação se perde — ninguém sabe o status das coisas</div></div>
+      <div class="opt" data-g="pain" data-v="retrabalho"><div class="opc"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Muito retrabalho — as mesmas tarefas precisam ser refeitas</div></div>
+      <div class="opt" data-g="pain" data-v="sem_visib"><div class="opc"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Sem visibilidade — não sei o que está acontecendo na operação</div></div>
+      <div class="opt" data-g="pain" data-v="dep_pessoa"><div class="opc"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Processos dependem de pessoas — se saem, tudo para</div></div>
+      <div class="opt" data-g="pain" data-v="sobrecarr"><div class="opc"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Equipe sobrecarregada e sempre apagando incêndio</div></div>
+      <div class="opt" data-g="pain" data-v="crescer"><div class="opc"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Difícil crescer sem perder o controle do negócio</div></div>
+      <div class="opt" data-g="pain" data-v="achismo"><div class="opc"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Decisões no achismo — sem dados para decidir com segurança</div></div>
+    </div>
+    <div class="err" id="err-2">Selecione pelo menos 1 problema para continuar.</div>
+    <div class="br">
+      <button class="btn" onclick="goTo(3)">Próximo <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+      <button class="btg" onclick="goTo(1)">Voltar</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step" id="step-3">
+    <div class="stag">Etapa 3 — Situação atual</div>
+    <h1 class="stitle">Como a operação funciona hoje?</h1>
+    <p class="ssub">Três perguntas para entender o nível de maturidade dos seus processos.</p>
+    <p class="ql">Como a informação circula na empresa?</p>
+    <p class="mh">Pode selecionar mais de uma opção.</p>
+    <div class="opts" id="info-opts">
+      <div class="opt" data-g="info" data-v="whatsapp"><div class="opc"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">WhatsApp e conversa verbal — sem registro formal</div></div>
+      <div class="opt" data-g="info" data-v="email"><div class="opc"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">E-mail e arquivos avulsos</div></div>
+      <div class="opt" data-g="info" data-v="planilha"><div class="opc"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Planilhas compartilhadas</div></div>
+      <div class="opt" data-g="info" data-v="sistema"><div class="opc"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Sistema ou software específico (ERP, CRM, etc.)</div></div>
+    </div>
+    <p class="ql" style="margin-top:1.75rem">Seus processos estão documentados?</p>
+    <div class="opts" id="doc-opts">
+      <div class="opt" data-g="doc" data-v="0"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Nada documentado — tudo está na cabeça das pessoas</div></div>
+      <div class="opt" data-g="doc" data-v="1"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Algumas coisas documentadas, mas sem padrão</div></div>
+      <div class="opt" data-g="doc" data-v="2"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">A maioria documentada, mas desatualizada</div></div>
+      <div class="opt" data-g="doc" data-v="3"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Documentados, atualizados e seguidos pela equipe</div></div>
+    </div>
+    <p class="ql" style="margin-top:1.75rem">Como as decisões importantes são tomadas?</p>
+    <div class="opts" id="dec-opts">
+      <div class="opt" data-g="dec" data-v="0"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Na experiência e intuição do dono ou gestor</div></div>
+      <div class="opt" data-g="dec" data-v="1"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Em reuniões e conversas, sem dados formais</div></div>
+      <div class="opt" data-g="dec" data-v="2"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Com base em planilhas e relatórios manuais</div></div>
+      <div class="opt" data-g="dec" data-v="3"><div class="opr"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div><div class="otx">Com dashboards e indicadores em tempo real</div></div>
+    </div>
+    <div class="err" id="err-3">Responda as três perguntas para continuar.</div>
+    <div class="br">
+      <button class="btn" onclick="goTo(4)">Próximo <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+      <button class="btg" onclick="goTo(2)">Voltar</button>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step" id="step-4">
+    <div class="stag">Etapa 4 — Seus dados</div>
+    <h1 class="stitle">Quase lá!</h1>
+    <p class="ssub">Informe seus dados para receber o diagnóstico completo.</p>
+    <div class="fld"><label>Seu nome</label><input type="text" id="inp-nome" placeholder="Como você se chama?"></div>
+    <div class="fld"><label>Nome da empresa</label><input type="text" id="inp-emp" placeholder="Como se chama sua empresa?"></div>
+    <div class="fld"><label>WhatsApp</label><input type="tel" id="inp-wh" placeholder="(67) 99999-9999"></div>
+    <div class="err" id="err-4">Preencha nome, empresa e WhatsApp para gerar o diagnóstico.</div>
+    <div class="br">
+      <button class="btn" onclick="iniciarDiagnostico()">
+        <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--ink);fill:none;stroke-width:2;stroke-linecap:round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        Gerar meu diagnóstico
+      </button>
+      <button class="btg" onclick="goTo(3)">Voltar</button>
+    </div>
+    <p class="hint">Seus dados são usados apenas para o diagnóstico e para contato com Victor. Sem spam.</p>
+  </div>
+
+  <!-- LOADING -->
+  <div class="step" id="step-loading" style="text-align:center;padding:4rem 1rem">
+    <div class="spin"></div>
+    <div class="ltitle">Analisando sua operação...</div>
+    <p class="lsub">Cruzando suas respostas com padrões de processos operacionais para gerar um diagnóstico personalizado.</p>
+    <div class="ltick" id="ltick"></div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="step" id="step-result">
+    <div class="rh">
+      <div class="rtag">Diagnóstico Concluído</div>
+      <div class="rname" id="rname"></div>
+      <div class="rdesc" id="rdesc"></div>
+    </div>
+    <div class="mw">
+      <div class="mlb">Nível de maturidade de processos</div>
+      <div class="mr">
+        <div class="md"><div class="mdot"></div><div class="mdot"></div><div class="mdot"></div><div class="mdot"></div><div class="mdot"></div></div>
+        <div class="ms" id="mscore"></div>
+      </div>
+      <div class="mdesc" id="mdesc"></div>
+    </div>
+    <p class="isec">Principais insights</p>
+    <div class="iw" id="iw"></div>
+    <div class="pc2">
+      <div class="plb">Prioridade imediata</div>
+      <div class="ptx" id="prio"></div>
+    </div>
+    <div class="wb">
+      <div class="wbdg">Próximo passo</div>
+      <div class="wbhl" id="wbhl"></div>
+      <p class="wbp" id="wbp"></p>
+      <a class="bwh" id="whl" href="#" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.126 1.523 5.867L.057 23.857a.5.5 0 0 0 .609.61l6.098-1.463A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.9 0-3.7-.5-5.27-1.38l-.38-.22-3.92.94.97-3.82-.24-.39A10 10 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        Falar com Victor no WhatsApp
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const A={seg:'',size:'',pain:[],info:[],doc:'',dec:'',nome:'',emp:'',wh:''};
+
+// Radio
+document.querySelectorAll('.opt[data-g="seg"],.opt[data-g="size"],.opt[data-g="doc"],.opt[data-g="dec"]').forEach(el=>{
+  el.addEventListener('click',()=>{
+    document.querySelectorAll(`.opt[data-g="${el.dataset.g}"]`).forEach(o=>o.classList.remove('sel'));
+    el.classList.add('sel');
+    A[el.dataset.g]=el.dataset.v;
+  });
+});
+// Checkbox pain (max 3)
+document.querySelectorAll('.opt[data-g="pain"]').forEach(el=>{
+  el.addEventListener('click',()=>{
+    if(el.classList.contains('sel')){el.classList.remove('sel');A.pain=A.pain.filter(v=>v!==el.dataset.v);}
+    else{if(A.pain.length>=3){const f=document.querySelector('.opt[data-g="pain"].sel');if(f){f.classList.remove('sel');A.pain.shift();}}el.classList.add('sel');A.pain.push(el.dataset.v);}
+  });
+});
+// Checkbox info (unlimited)
+document.querySelectorAll('.opt[data-g="info"]').forEach(el=>{
+  el.addEventListener('click',()=>{
+    if(el.classList.contains('sel')){el.classList.remove('sel');A.info=A.info.filter(v=>v!==el.dataset.v);}
+    else{el.classList.add('sel');A.info.push(el.dataset.v);}
+  });
+});
+
+function showErr(id){const e=document.getElementById(id);e.style.display='block';setTimeout(()=>e.style.display='none',3500);}
+function goTo(n){
+  if(n===2&&(!A.seg||!A.size)){showErr('err-1');return;}
+  if(n===3&&A.pain.length===0){showErr('err-2');return;}
+  if(n===4&&(A.info.length===0||!A.doc||!A.dec)){showErr('err-3');return;}
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step-'+n).classList.add('active');
+  document.getElementById('pf').style.width=(n*25)+'%';
+  document.getElementById('pc').textContent='Etapa '+n+' de 4';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function iniciarDiagnostico(){
+  A.nome=document.getElementById('inp-nome').value.trim();
+  A.emp=document.getElementById('inp-emp').value.trim();
+  A.wh=document.getElementById('inp-wh').value.trim();
+  if(!A.nome||!A.emp||!A.wh){showErr('err-4');return;}
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step-loading').classList.add('active');
+  document.getElementById('pf').style.width='100%';
+  document.getElementById('pc').textContent='Gerando diagnóstico...';
+  window.scrollTo({top:0,behavior:'smooth'});
+  const ticks=['Mapeando fluxo de informação...','Analisando pontos de retrabalho...','Calculando nível de maturidade...','Formulando recomendações...'];
+  let ti=0;
+  const tick=()=>{document.getElementById('ltick').textContent='✓ '+ticks[ti];ti++;if(ti<ticks.length)setTimeout(tick,700);};
+  setTimeout(tick,400);
+  setTimeout(()=>{mostrarResultado(calcDiagnostico());},3200);
+}
+
+// ─── DIAGNOSTIC ENGINE ──────────────────────────────────────────
+function calcDiagnostico(){
+  const {seg,size,pain,info,doc,dec,nome,emp}=A;
+
+  // Maturity score
+  const infoScore=info.includes('sistema')?3:info.includes('planilha')?2:info.includes('email')?1:0;
+  const docScore=parseInt(doc)||0;
+  const decScore=parseInt(dec)||0;
+  const painPenalty=pain.length*0.5;
+  const raw=infoScore+docScore+decScore-painPenalty;
+  const nivel=Math.max(1,Math.min(5,Math.round(raw/1.8+1)));
+
+  const MNAMES=['','Inicial','Em Formação','Em Desenvolvimento','Estruturado','Otimizado'];
+  const MDESCS={
+    1:`A operação da ${emp} funciona no improviso. Processos existem na prática, mas não estão documentados, controlados ou padronizados. Qualquer crescimento adiciona mais caos.`,
+    2:`Algumas rotinas estão funcionando, mas de forma inconsistente. A ${emp} depende de pessoas-chave e não tem visibilidade clara do que acontece no dia a dia.`,
+    3:`Existem processos definidos, mas com gargalos importantes. A ${emp} consegue operar, porém paga um custo alto em retrabalho e falta de controle.`,
+    4:`A ${emp} tem estrutura e algum controle operacional. O desafio agora é ganhar consistência, automatizar tarefas repetitivas e tomar decisões com mais dados.`,
+    5:`A ${emp} tem processos maduros e monitorados. Há espaço estratégico para aplicar IA de forma precisa e escalar com controle total.`
+  };
+
+  // Pain insights
+  const PAIN_INSIGHTS={
+    info_perde:`Na ${emp}, a ausência de um canal único de informação cria versões paralelas da mesma realidade. Cada pessoa guarda um pedaço do processo — e quando alguém sai ou falta, o que sabia vai junto. O primeiro passo não é tecnologia: é definir onde cada tipo de informação precisa viver.`,
+    retrabalho:`Retrabalho na ${emp} é sintoma, não causa. Ele acontece porque as tarefas não têm critério claro de "pronto" — quem executa não sabe exatamente o que é esperado, e quem pede também não. Antes de automatizar qualquer coisa, é preciso padronizar.`,
+    sem_visib:`Sem visibilidade, as decisões na ${emp} são sempre reativas: o problema só aparece quando já virou incêndio. Um painel simples com 3 a 5 indicadores-chave já muda a capacidade de antecipação — e não precisa de sistema caro para começar.`,
+    dep_pessoa:`Se uma pessoa-chave sair da ${emp} amanhã, quantos processos param? Essa dependência é um risco operacional crítico. Documentar não é burocracia — é garantir que o negócio funcione independente de quem está presente.`,
+    sobrecarr:`Equipe sobrecarregada na ${emp} é sinal de que o trabalho está mal distribuído ou mal definido. Antes de contratar mais pessoas, vale mapear quantas horas por semana estão sendo gastas em tarefas repetitivas que poderiam ser automatizadas ou eliminadas.`,
+    crescer:`Crescer sem processo é crescer com caos. O que funciona com 5 pessoas na ${emp} quebra com 15. Estruturar os processos agora, antes de escalar, é o que garante que o crescimento não vire uma crise operacional.`,
+    achismo:`Decisões baseadas em intuição funcionam até certo ponto na ${emp}. A partir do momento em que o negócio cresce, o achismo começa a custar caro. Coletar dados básicos da operação é o primeiro passo para tomar decisões com mais segurança.`
+  };
+
+  // Info channel insights
+  const INFO_INSIGHTS={
+    whatsapp:`O WhatsApp é o canal mais usado no Brasil, mas como canal oficial de processos ele tem um problema grave: informação sem contexto, sem histórico acessível e sem responsabilidade clara. Tudo que fica só no WhatsApp está a um clique de sumir.`,
+    multi:`A ${emp} usa múltiplos canais ao mesmo tempo — isso cria fragmentação. A mesma informação existe em lugares diferentes, em versões diferentes. Isso é uma das principais causas de retrabalho e de decisões tomadas com dados errados.`,
+    sistema:`Ter um sistema é um bom sinal, mas sistemas mal configurados ou subutilizados geram uma ilusão de controle. Vale avaliar se a equipe realmente usa o sistema ou se o trabalho real ainda acontece em paralelo, fora dele.`
+  };
+
+  // Priority based on score and pains
+  const PRIORITIES={
+    low_info:`Definir um canal único de comunicação operacional para a ${emp} — seja um grupo específico, uma ferramenta de gestão ou até uma pasta compartilhada. Antes de qualquer automação, a informação precisa ter um lugar fixo.`,
+    low_doc:`Documentar os 3 processos mais críticos da ${emp} — aqueles que param se a pessoa responsável faltar. Não precisa ser complexo: um fluxo simples em papel já resolve o risco imediato.`,
+    mid:`Mapear o fluxo completo de um processo crítico da ${emp} e identificar onde está o maior gargalo. Com isso claro, dá para propor uma solução prática — seja uma automação simples, um checklist ou uma mudança de responsabilidade.`,
+    high:`Implementar um dashboard simples com os 3 a 5 indicadores mais importantes da operação da ${emp}. Com visibilidade real, as decisões passam a ser baseadas em dados e não em percepção.`,
+    top:`Mapear as tarefas repetitivas com maior volume na ${emp} e avaliar quais podem ser automatizadas com IA. Com processos bem estruturados, a automação tem ROI imediato.`
+  };
+
+  // Doc insights
+  const DOC_INSIGHTS={
+    '0':`Nenhum processo da ${emp} está documentado — todo o conhecimento operacional está na cabeça das pessoas. Quando alguém falta ou sai, a empresa para ou comete erros que seriam evitados com um simples roteiro escrito.`,
+    '1':`A documentação na ${emp} existe em partes, mas sem padrão. Isso é perigoso: cria a ilusão de controle quando na prática cada pessoa executa do seu jeito. Inconsistência é a raiz do retrabalho.`,
+    '2':`A ${emp} tem processos documentados, mas desatualizados. Documentação que não reflete a realidade pode ser pior do que nenhuma — gera confiança em informação errada.`,
+    '3':`A ${emp} tem boa maturidade de documentação. O próximo passo é usar esses processos como base para automatizar rotinas repetitivas e criar indicadores de desempenho por etapa.`
+  };
+
+  // Decision insights
+  const DEC_INSIGHTS={
+    '0':`Na ${emp}, decisões importantes são tomadas com base na experiência do gestor. Isso funciona em negócios pequenos, mas tem um limite claro: quando o volume cresce, a intuição individual não escala e os erros ficam mais caros.`,
+    '1':`As decisões na ${emp} acontecem em reuniões sem dados formais. Isso gera longas discussões sobre percepções diferentes da mesma situação. Com 2 ou 3 indicadores simples, essas reuniões ficam muito mais objetivas.`,
+    '2':`A ${emp} usa planilhas para decidir — melhor do que nada, mas com limitações sérias: dados manuais atrasam, erram e não escalam. Uma planilha bem estruturada hoje pode virar um dashboard automatizado amanhã.`,
+    '3':`A ${emp} já toma decisões com dados em tempo real — isso é um diferencial real. O próximo nível é cruzar esses dados com IA para identificar padrões e antecipar problemas antes que aconteçam.`
+  };
+
+  // Build pool in priority order, ensure uniqueness
+  const pool=[];
+  pain.forEach(p=>{if(PAIN_INSIGHTS[p])pool.push(PAIN_INSIGHTS[p]);});
+  if(info.includes('whatsapp')&&info.length===1)pool.push(INFO_INSIGHTS.whatsapp);
+  else if(info.length>1)pool.push(INFO_INSIGHTS.multi);
+  else if(info.includes('sistema'))pool.push(INFO_INSIGHTS.sistema);
+  if(DOC_INSIGHTS[doc])pool.push(DOC_INSIGHTS[doc]);
+  if(DEC_INSIGHTS[dec])pool.push(DEC_INSIGHTS[dec]);
+
+  // Pick first 3 unique
+  const seen=new Set();const selectedInsights=[];
+  for(const ins of pool){if(!seen.has(ins)){seen.add(ins);selectedInsights.push(ins);}if(selectedInsights.length===3)break;}
+
+  // Priority
+  let prio=PRIORITIES.mid;
+  if(nivel<=2){prio=pain.includes('info_perde')?PRIORITIES.low_info:PRIORITIES.low_doc;}
+  else if(nivel===3){prio=PRIORITIES.mid;}
+  else if(nivel===4){prio=PRIORITIES.high;}
+  else{prio=PRIORITIES.top;}
+
+  // WhatsApp message
+  const painLabels={info_perde:'perda de informação',retrabalho:'retrabalho',sem_visib:'falta de visibilidade',dep_pessoa:'dependência de pessoas',sobrecarr:'equipe sobrecarregada',crescer:'dificuldade de escalar',achismo:'decisões sem dados'};
+  const painStr=pain.map(p=>painLabels[p]||p).join(', ');
+  const whmsg=`Olá Victor, fiz o diagnóstico no seu site. Sou ${nome}, da ${emp} — somos de ${seg} com ${size==='1'?'apenas eu':size+' funcionários'}. Nossas principais dores são: ${painStr}. Nosso nível de maturidade ficou em ${nivel}/5. Quero conversar sobre como melhorar nossos processos.`;
+
+  return{nivel,nome_nivel:MNAMES[nivel],desc_nivel:MDESCS[nivel],insights:selectedInsights.slice(0,3),prioridade:prio,whmsg};
+}
+
+function mostrarResultado(d){
+  const n=A.nome.split(' ')[0];
+  document.getElementById('rname').textContent=`${n}, seu diagnóstico está pronto.`;
+  document.getElementById('rdesc').textContent=d.desc_nivel;
+  document.querySelectorAll('.mdot').forEach((dot,i)=>{if(i<d.nivel)dot.classList.add('on');});
+  document.getElementById('mscore').textContent=`${d.nivel}/5 — ${d.nome_nivel}`;
+  const iw=document.getElementById('iw');
+  iw.innerHTML='';
+  d.insights.forEach(ins=>{
+    iw.innerHTML+=`<div class="ic"><div class="ii"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="it">${ins}</div></div>`;
+  });
+  document.getElementById('prio').textContent=d.prioridade;
+  document.getElementById('wbhl').textContent=`${A.emp} tem potencial real de melhoria — e podemos ir muito além do que esse diagnóstico mostra.`;
+  document.getElementById('wbp').textContent='Com um mapeamento aprofundado, identifico exatamente onde sua operação está perdendo eficiência e proponho soluções práticas com processos e IA. Vamos conversar?';
+  document.getElementById('whl').href=`https://wa.me/5567998914806?text=${encodeURIComponent(d.whmsg)}`;
+
+  // Save lead to localStorage for CRM panel
+  try{
+    const lead={
+      id:Date.now(),nome:A.nome,empresa:A.emp,wh:A.wh,
+      seg:A.seg,size:A.size,pain:A.pain,info:A.info,doc:A.doc,dec:A.dec,
+      nivel:d.nivel,nome_nivel:d.nome_nivel,
+      data:new Date().toLocaleDateString('pt-BR'),
+      hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),
+      coluna:'novo',notas:'',origem:'diagnostico'
+    };
+    const leads=JSON.parse(localStorage.getItem('vp_leads')||'[]');
+    leads.unshift(lead);
+    localStorage.setItem('vp_leads',JSON.stringify(leads));
+  }catch(e){}
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step-result').classList.add('active');
+  document.getElementById('pc').textContent='Diagnóstico concluído';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
