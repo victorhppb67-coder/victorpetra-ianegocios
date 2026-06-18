@@ -9,147 +9,345 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --ink:#07111C;
-  --ink2:#0B1C2E;
-  --ink3:#112538;
+  --ink:#060E18;
+  --ink2:#0A1628;
+  --ink3:#0F1F35;
+  --ink4:#142742;
   --surface:#F2F5F9;
   --white:#FFFFFF;
   --teal:#0DCFB9;
   --teal-dark:#0AB0A0;
+  --teal-glow:rgba(13,207,185,.25);
+  --blue:#4F8EFF;
+  --blue-glow:rgba(79,142,255,.2);
+  --purple:#A78BFA;
+  --purple-glow:rgba(167,139,250,.2);
+  --green:#4ADE80;
+  --green-glow:rgba(74,222,128,.2);
+  --rose:#F472B6;
+  --rose-glow:rgba(244,114,182,.2);
+  --amber:#FBBF24;
+  --amber-glow:rgba(251,191,36,.2);
+  --sky:#60A5FA;
+  --sky-glow:rgba(96,165,250,.2);
   --muted:#6B87A4;
   --muted2:#8FA8C2;
-  --rule-dark:rgba(255,255,255,.07);
+  --muted3:#B0C4DE;
+  --rule:rgba(255,255,255,.06);
+  --rule2:rgba(255,255,255,.1);
   --rule-light:#DDE5EF;
   --light-fg:#1A2C3D;
   --light-body:#4A5F75;
-  --s1:#0DCFB9; --s1-bg:rgba(13,207,185,.1); --s1-bd:rgba(13,207,185,.22);
-  --s2:#4F8EFF; --s2-bg:rgba(79,142,255,.1);  --s2-bd:rgba(79,142,255,.22);
-  --s3:#A78BFA; --s3-bg:rgba(167,139,250,.1); --s3-bd:rgba(167,139,250,.22);
-  --s4:#4ADE80; --s4-bg:rgba(74,222,128,.1);  --s4-bd:rgba(74,222,128,.22);
+  --glass:rgba(15,31,53,.65);
+  --glass-border:rgba(255,255,255,.08);
+  --glass-border2:rgba(255,255,255,.12);
 }
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1rem 2.5rem;background:rgba(7,17,28,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--rule-dark)}
-.logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.9rem;color:var(--white);text-decoration:none}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1rem 2.5rem;background:rgba(6,14,24,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--rule)}
+.logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.9rem;color:var(--white);text-decoration:none;letter-spacing:-.02em}
 .logo span{color:var(--teal)}
-.nav-cta{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.8rem;padding:.55rem 1.25rem;border-radius:6px;background:var(--teal);color:var(--ink);text-decoration:none;transition:background .2s}
-.nav-cta:hover{background:var(--teal-dark)}
+.nav-cta{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.8rem;padding:.55rem 1.25rem;border-radius:6px;background:var(--teal);color:var(--ink);text-decoration:none;transition:all .25s}
+.nav-cta:hover{background:var(--teal-dark);box-shadow:0 0 20px var(--teal-glow)}
 
 /* HERO */
-.hero{min-height:100vh;display:flex;align-items:center;padding:8rem 2.5rem 5rem;position:relative;overflow:hidden}
-.hero-dots{position:absolute;inset:0;background-image:radial-gradient(rgba(13,207,185,.14) 1px,transparent 1px);background-size:30px 30px;pointer-events:none;mask-image:radial-gradient(ellipse 65% 75% at 65% 40%,black,transparent)}
-.hero-glow{position:absolute;top:-15%;right:-8%;width:50vw;height:50vw;background:radial-gradient(circle,rgba(13,207,185,.06) 0%,transparent 65%);pointer-events:none}
-.hero-inner{position:relative;max-width:800px;margin:0 auto;width:100%}
-.eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:1.75rem}
-.eyebrow::before{content:'';width:20px;height:1.5px;background:var(--teal)}
-h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.5rem,5.5vw,4rem);font-weight:700;line-height:1.07;letter-spacing:-.035em;margin-bottom:1.5rem}
+.hero{min-height:100vh;display:flex;align-items:center;padding:7rem 2.5rem 5rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse 80% 60% at 70% 40%,rgba(13,207,185,.04) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 20% 80%,rgba(79,142,255,.03) 0%,transparent 50%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;mask-image:radial-gradient(ellipse 70% 70% at 60% 50%,black,transparent)}
+.hero-glow{position:absolute;top:-20%;right:-10%;width:60vw;height:60vw;background:radial-gradient(circle,rgba(13,207,185,.05) 0%,transparent 55%);pointer-events:none}
+.hero-glow2{position:absolute;bottom:-30%;left:-15%;width:50vw;height:50vw;background:radial-gradient(circle,rgba(79,142,255,.03) 0%,transparent 55%);pointer-events:none}
+.hero-inner{position:relative;max-width:1100px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hero-text{position:relative;z-index:2}
+.eyebrow{display:inline-flex;align-items:center;gap:.6rem;font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:1.5rem;padding:.4rem .9rem;background:rgba(13,207,185,.06);border:1px solid rgba(13,207,185,.15);border-radius:20px}
+.eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal-glow)}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.2rem,4.5vw,3.5rem);font-weight:700;line-height:1.08;letter-spacing:-.04em;margin-bottom:1.25rem}
 h1 mark{background:none;-webkit-text-fill-color:var(--teal);color:var(--teal)}
-.hero-sub{font-size:1.075rem;color:var(--muted2);line-height:1.78;max-width:560px;margin-bottom:2.75rem}
-.btn{display:inline-flex;align-items:center;gap:.6rem;background:var(--teal);color:var(--ink);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;padding:.95rem 2rem;border-radius:7px;text-decoration:none;transition:background .2s,transform .15s}
-.btn:hover{background:var(--teal-dark);transform:translateY(-1px)}
-.wico{width:17px;height:17px;flex-shrink:0;fill:currentColor}
+.hero-sub{font-size:1rem;color:var(--muted2);line-height:1.75;max-width:480px;margin-bottom:2rem}
+.hero-cta-row{display:flex;flex-direction:column;gap:1rem;align-items:flex-start}
+.btn{display:inline-flex;align-items:center;gap:.6rem;background:var(--teal);color:var(--ink);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;padding:.9rem 2rem;border-radius:8px;text-decoration:none;transition:all .25s;position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15) 0%,transparent 50%);pointer-events:none}
+.btn:hover{background:var(--teal-dark);transform:translateY(-2px);box-shadow:0 8px 30px var(--teal-glow)}
+.btn svg{width:17px;height:17px;flex-shrink:0;fill:currentColor}
+.hero-benefits{display:flex;flex-wrap:wrap;gap:.5rem .75rem;margin-top:.5rem}
+.hero-benefit{display:inline-flex;align-items:center;gap:.35rem;font-size:.72rem;font-weight:500;color:var(--muted);padding:.3rem .65rem;background:rgba(255,255,255,.03);border:1px solid var(--rule);border-radius:16px}
+.hero-benefit::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--teal);opacity:.7}
+
+/* HERO MOCKUP */
+.hero-mockup{position:relative;z-index:2}
+.mockup{background:var(--glass);backdrop-filter:blur(24px);border:1px solid var(--glass-border2);border-radius:16px;padding:0;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.03) inset,0 1px 0 rgba(255,255,255,.05) inset}
+.mockup-head{display:flex;align-items:center;gap:.6rem;padding:.85rem 1.25rem;border-bottom:1px solid var(--rule);background:rgba(255,255,255,.02)}
+.mockup-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.mockup-dot.r{background:#FF5F57}.mockup-dot.y{background:#FEBC2E}.mockup-dot.g{background:#28C840}
+.mockup-title{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;color:var(--muted2);letter-spacing:.05em;text-transform:uppercase;margin-left:.5rem}
+.mockup-body{padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
+
+/* Chat messages */
+.chat-msg{display:flex;gap:.6rem;max-width:90%}
+.chat-msg.right{align-self:flex-end;flex-direction:row-reverse}
+.chat-avatar{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.6rem;font-weight:700}
+.chat-avatar.user{background:rgba(79,142,255,.15);border:1px solid rgba(79,142,255,.25);color:var(--blue)}
+.chat-avatar.agent{background:rgba(13,207,185,.15);border:1px solid rgba(13,207,185,.25);color:var(--teal)}
+.chat-bubble{background:rgba(255,255,255,.04);border:1px solid var(--rule);border-radius:12px;padding:.65rem .85rem;font-size:.78rem;color:var(--muted3);line-height:1.5}
+.chat-msg.right .chat-bubble{background:rgba(13,207,185,.08);border-color:rgba(13,207,185,.15);color:var(--white)}
+.chat-bubble strong{color:var(--white);font-weight:600}
+.chat-label{font-size:.6rem;font-weight:600;color:var(--muted);margin-bottom:.2rem;text-transform:uppercase;letter-spacing:.06em}
+.chat-time{font-size:.58rem;color:var(--muted);opacity:.6;margin-top:.2rem}
+
+/* Agent badges row */
+.agents-row{display:flex;flex-wrap:wrap;gap:.4rem;padding-top:.5rem;border-top:1px solid var(--rule)}
+.agent-badge{display:inline-flex;align-items:center;gap:.3rem;padding:.25rem .55rem;border-radius:6px;font-size:.62rem;font-weight:600;border:1px solid}
+.ab-at{background:rgba(13,207,185,.08);border-color:rgba(13,207,185,.2);color:var(--teal)}
+.ab-ad{background:rgba(79,142,255,.08);border-color:rgba(79,142,255,.2);color:var(--blue)}
+.ab-fi{background:rgba(167,139,250,.08);border-color:rgba(167,139,250,.2);color:var(--purple)}
+.ab-es{background:rgba(74,222,128,.08);border-color:rgba(74,222,128,.2);color:var(--green)}
+.ab-rh{background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.2);color:var(--amber)}
+.ab-op{background:rgba(244,114,182,.08);border-color:rgba(244,114,182,.2);color:var(--rose)}
+.agent-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
+
+/* Stats row */
+.mockup-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;padding-top:.75rem;border-top:1px solid var(--rule)}
+.mstat{text-align:center;padding:.5rem .25rem}
+.mstat-num{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;line-height:1}
+.mstat-num.c1{color:var(--teal)}.mstat-num.c2{color:var(--rose)}.mstat-num.c3{color:var(--blue)}
+.mstat-label{font-size:.58rem;color:var(--muted);margin-top:.2rem;line-height:1.3}
+
+/* Floating elements */
+.mockup-float{position:absolute;background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--glass-border2);border-radius:10px;padding:.5rem .75rem;font-size:.65rem;color:var(--muted3);display:flex;align-items:center;gap:.4rem;box-shadow:0 8px 24px rgba(0,0,0,.3);animation:float 4s ease-in-out infinite}
+.mf-1{top:-12px;right:20px;animation-delay:0s}
+.mf-2{bottom:-10px;left:15px;animation-delay:1.5s}
+.mf-ico{width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mf-ico svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mf-ico.t{background:rgba(13,207,185,.15);color:var(--teal)}
+.mf-ico.b{background:rgba(79,142,255,.15);color:var(--blue)}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
 /* TRUST BAR */
-.trust{background:var(--surface);padding:1.6rem 2.5rem;border-top:1px solid var(--rule-light);border-bottom:1px solid var(--rule-light)}
-.trust-inner{max-width:920px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:2.25rem;flex-wrap:wrap}
-.trust-item{display:flex;align-items:center;gap:.55rem;font-size:.78rem;font-weight:600;color:var(--light-body)}
-.ti{width:17px;height:17px;stroke:var(--teal-dark);fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
-.tdot{width:4px;height:4px;border-radius:50%;background:var(--rule-light)}
+.trust{background:var(--ink2);padding:1.25rem 2.5rem;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.trust-inner{max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:600;color:var(--muted);white-space:nowrap}
+.ti{width:15px;height:15px;stroke:var(--teal);fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;opacity:.7}
+.tdot{width:3px;height:3px;border-radius:50%;background:var(--rule2);flex-shrink:0}
 
 /* SHARED */
-.s{padding:5.5rem 2.5rem}
-.wrap{max-width:920px;margin:0 auto}
-.stag{font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:.875rem}
+.s{padding:6rem 2.5rem}
+.wrap{max-width:960px;margin:0 auto}
+.wrap-wide{max-width:1100px;margin:0 auto}
+.stag{font-size:.65rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:.875rem;display:inline-flex;align-items:center;gap:.5rem}
+.stag::before{content:'';width:16px;height:1.5px;background:var(--teal)}
 .stag-inv{color:var(--teal)}
-h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.7rem,3vw,2.35rem);font-weight:700;letter-spacing:-.025em;line-height:1.18;margin-bottom:1.25rem}
-.slead{font-size:1rem;line-height:1.78;max-width:600px;margin-bottom:2.75rem}
+h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.6rem,3vw,2.25rem);font-weight:700;letter-spacing:-.03em;line-height:1.15;margin-bottom:1.1rem}
+.slead{font-size:.95rem;line-height:1.75;max-width:600px;margin-bottom:2.5rem;color:var(--muted2)}
 
 /* PAIN */
-.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.875rem}
-.pain-card{background:var(--surface);border:1px solid var(--rule-light);border-radius:10px;padding:1.25rem 1.375rem;display:flex;align-items:center;gap:1rem;min-height:82px;transition:border-color .2s}
-.pain-card:hover{border-color:#BFCFDF}
-.p-ico{width:38px;height:38px;border-radius:8px;background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#E57373}
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.pain-card{background:var(--ink2);border:1px solid var(--rule);border-radius:12px;padding:1.25rem 1.375rem;display:flex;align-items:center;gap:1rem;min-height:80px;transition:all .25s}
+.pain-card:hover{border-color:var(--rule2);transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.p-ico{width:38px;height:38px;border-radius:10px;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#E57373}
 .p-ico svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
-.pain-card p{font-size:.85rem;color:var(--light-body);font-weight:500;line-height:1.4}
-
-/* METHODOLOGY (4 diagnostic steps) */
-.s-diag{background:var(--ink2);padding:5.5rem 2.5rem}
-.diag-grid{display:grid;grid-template-columns:1fr 36px 1fr 36px 1fr 36px 1fr;align-items:center;gap:0;margin-top:3rem}
-.diag-card{background:var(--ink3);border:1px solid var(--rule-dark);border-radius:14px;padding:2rem 1.625rem;display:flex;flex-direction:column;gap:1rem;align-self:stretch}
-.dc-bar{height:3px;border-radius:2px;width:100%}
-.dc-top{display:flex;align-items:center;justify-content:space-between}
-.dc-step{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.dc-ring{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid}
-.dc-ring svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
-.dc-title{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;line-height:1.2}
-.dc-desc{font-size:.825rem;color:var(--muted);line-height:1.65;flex:1}
-.diag-arrow{display:flex;align-items:center;justify-content:center;color:var(--muted);opacity:.45;flex-shrink:0;font-size:.9rem}
-
-.d1 .dc-bar{background:var(--s1)} .d1 .dc-ring{background:var(--s1-bg);border-color:var(--s1-bd);color:var(--s1)} .d1 .dc-title{color:var(--s1)}
-.d2 .dc-bar{background:var(--s2)} .d2 .dc-ring{background:var(--s2-bg);border-color:var(--s2-bd);color:var(--s2)} .d2 .dc-title{color:var(--s2)}
-.d3 .dc-bar{background:var(--s3)} .d3 .dc-ring{background:var(--s3-bg);border-color:var(--s3-bd);color:var(--s3)} .d3 .dc-title{color:var(--s3)}
-.d4 .dc-bar{background:var(--s4)} .d4 .dc-ring{background:var(--s4-bg);border-color:var(--s4-bd);color:var(--s4)} .d4 .dc-title{color:var(--s4)}
+.pain-card p{font-size:.82rem;color:var(--muted2);font-weight:500;line-height:1.4}
 
 /* CONCEPT */
 .concept-cols{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
 .concept-text .slead{color:var(--muted2);margin-bottom:1rem}
-.concept-accent{color:var(--teal);font-size:.95rem;font-weight:500;line-height:1.65;margin-top:1.25rem}
-.concept-card{background:var(--ink3);border:1px solid var(--rule-dark);border-radius:14px;padding:2rem;position:relative;overflow:hidden}
-.concept-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),transparent)}
-.cc-label{font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem}
-.cc-q{display:flex;gap:.875rem;padding:.875rem 0;border-bottom:1px solid var(--rule-dark)}
+.concept-accent{color:var(--teal);font-size:.92rem;font-weight:500;line-height:1.65;margin-top:1.25rem}
+.concept-card{background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--glass-border2);border-radius:16px;padding:2rem;position:relative;overflow:hidden}
+.concept-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--blue),transparent)}
+.cc-label{font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem}
+.cc-q{display:flex;gap:.875rem;padding:.8rem 0;border-bottom:1px solid var(--rule)}
 .cc-q:first-of-type{padding-top:0}
 .cc-q:last-of-type{border-bottom:none;padding-bottom:0}
 .cc-n{font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:700;color:var(--muted);min-width:18px;padding-top:1px;flex-shrink:0}
-.cc-text{font-size:.875rem;color:var(--muted2);line-height:1.55}
+.cc-text{font-size:.85rem;color:var(--muted2);line-height:1.5}
 
-/* SERVICES */
-.svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.875rem;margin-top:2.25rem}
-.svc{display:flex;align-items:center;gap:.875rem;background:var(--white);border:1px solid var(--rule-light);border-radius:9px;padding:1.125rem 1.375rem;font-size:.875rem;color:var(--light-fg);font-weight:500;min-height:58px;transition:border-color .2s}
-.svc:hover{border-color:#BDD0E5}
-.svc-dot{width:6px;height:6px;border-radius:50%;background:var(--teal-dark);flex-shrink:0}
+/* HOW IT WORKS - 4 STEPS FLOW */
+.how-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:3rem;position:relative}
+.how-flow::before{content:'';position:absolute;top:40px;left:12.5%;right:12.5%;height:2px;background:linear-gradient(90deg,var(--teal),var(--blue),var(--purple),var(--green));opacity:.3}
+.how-step{display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;padding:0 1rem}
+.how-num{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:1.25rem;position:relative;z-index:2;border:1px solid}
+.how-num.n1{background:rgba(13,207,185,.1);border-color:rgba(13,207,185,.25);color:var(--teal)}
+.how-num.n2{background:rgba(79,142,255,.1);border-color:rgba(79,142,255,.25);color:var(--blue)}
+.how-num.n3{background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.25);color:var(--purple)}
+.how-num.n4{background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.25);color:var(--green)}
+.how-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:.5rem;line-height:1.2}
+.how-desc{font-size:.8rem;color:var(--muted);line-height:1.6}
+
+/* SOLUTION */
+.sol-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;margin-top:2.25rem}
+.sol-card{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:14px;padding:1.5rem;position:relative;overflow:hidden;transition:all .25s}
+.sol-card:hover{border-color:var(--glass-border2);transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.2)}
+.sol-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.sol-card.s-c1::before{background:linear-gradient(90deg,var(--teal),transparent)} .sol-card.s-c2::before{background:linear-gradient(90deg,var(--blue),transparent)} .sol-card.s-c3::before{background:linear-gradient(90deg,var(--purple),transparent)} .sol-card.s-c4::before{background:linear-gradient(90deg,var(--green),transparent)}
+.sol-ico{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-bottom:1rem;border:1px solid}
+.sol-ico svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.sol-card.s-c1 .sol-ico{background:rgba(13,207,185,.08);border-color:rgba(13,207,185,.2);color:var(--teal)}
+.sol-card.s-c2 .sol-ico{background:rgba(79,142,255,.08);border-color:rgba(79,142,255,.2);color:var(--blue)}
+.sol-card.s-c3 .sol-ico{background:rgba(167,139,250,.08);border-color:rgba(167,139,250,.2);color:var(--purple)}
+.sol-card.s-c4 .sol-ico{background:rgba(74,222,128,.08);border-color:rgba(74,222,128,.2);color:var(--green)}
+.sol-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--white);margin-bottom:.4rem;line-height:1.25}
+.sol-desc{font-size:.82rem;color:var(--muted);line-height:1.6}
+
+/* METHODOLOGY */
+.s-diag{background:var(--ink2);padding:6rem 2.5rem}
+.diag-grid{display:grid;grid-template-columns:1fr 36px 1fr 36px 1fr 36px 1fr;align-items:center;gap:0;margin-top:3rem}
+.diag-card{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:14px;padding:1.75rem 1.5rem;display:flex;flex-direction:column;gap:1rem;transition:all .25s}
+.diag-card:hover{border-color:var(--glass-border2);transform:translateY(-2px)}
+.dc-bar{height:3px;border-radius:2px;width:100%}
+.dc-top{display:flex;align-items:center;justify-content:space-between}
+.dc-step{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.dc-ring{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid}
+.dc-ring svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.dc-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;line-height:1.2}
+.dc-desc{font-size:.8rem;color:var(--muted);line-height:1.65;flex:1}
+.diag-arrow{display:flex;align-items:center;justify-content:center;color:var(--muted);opacity:.35;flex-shrink:0;font-size:.85rem}
+
+.d1 .dc-bar{background:var(--teal)} .d1 .dc-ring{background:rgba(13,207,185,.1);border-color:rgba(13,207,185,.22);color:var(--teal)} .d1 .dc-title{color:var(--teal)}
+.d2 .dc-bar{background:var(--blue)} .d2 .dc-ring{background:rgba(79,142,255,.1);border-color:rgba(79,142,255,.22);color:var(--blue)} .d2 .dc-title{color:var(--blue)}
+.d3 .dc-bar{background:var(--purple)} .d3 .dc-ring{background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.22);color:var(--purple)} .d3 .dc-title{color:var(--purple)}
+.d4 .dc-bar{background:var(--green)} .d4 .dc-ring{background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.22);color:var(--green)} .d4 .dc-title{color:var(--green)}
+
+/* SERVICES GROUPED */
+.svc-groups{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.5rem}
+.svc-group{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:14px;padding:1.5rem;position:relative;overflow:hidden;transition:all .25s}
+.svc-group:hover{border-color:var(--glass-border2)}
+.svc-group::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.svc-group.sg1::before{background:linear-gradient(90deg,var(--teal),transparent)}
+.svc-group.sg2::before{background:linear-gradient(90deg,var(--blue),var(--purple))}
+.svc-group.sg3::before{background:linear-gradient(90deg,var(--green),transparent)}
+.svc-group-title{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:.3rem}
+.svc-group-desc{font-size:.72rem;color:var(--muted);margin-bottom:1rem;line-height:1.5}
+.svc-list{display:flex;flex-direction:column;gap:.55rem}
+.svc-item{display:flex;align-items:flex-start;gap:.6rem}
+.svc-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:.4rem}
+.sg1 .svc-dot{background:var(--teal)}.sg2 .svc-dot{background:var(--blue)}.sg3 .svc-dot{background:var(--green)}
+.svc-item-text{display:flex;flex-direction:column;gap:.1rem}
+.svc-item-name{font-size:.8rem;color:var(--white);font-weight:500}
+.svc-item-desc{font-size:.7rem;color:var(--muted);line-height:1.45}
+
+/* AGENTS ARCHITECTURE */
+.agents-arch{position:relative}
+.arch-center{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--glass-border2);border-radius:16px;padding:1.75rem 2rem;text-align:center;margin-bottom:3rem;position:relative;overflow:hidden}
+.arch-center::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--blue),var(--purple))}
+.arch-whatsapp{display:inline-flex;align-items:center;gap:.6rem;background:rgba(13,207,185,.08);border:1px solid rgba(13,207,185,.2);border-radius:10px;padding:.6rem 1.2rem;margin-bottom:1rem}
+.arch-whatsapp svg{width:20px;height:20px;fill:var(--teal)}
+.arch-whatsapp span{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:var(--teal)}
+.arch-subtitle{font-size:.85rem;color:var(--muted2);line-height:1.6;max-width:500px;margin:0 auto}
+.arch-subtitle strong{color:var(--white)}
+
+/* Agents grid */
+.agents-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
+.agent-card{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:14px;padding:1.375rem;transition:all .25s;position:relative;overflow:hidden}
+.agent-card:hover{border-color:var(--glass-border2);transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.25)}
+.agent-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.agent-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-bottom:.85rem;border:1px solid}
+.agent-ico svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.agent-title{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:var(--white);margin-bottom:.35rem;line-height:1.25}
+.agent-desc{font-size:.78rem;color:var(--muted);line-height:1.55;margin-bottom:.65rem}
+.agent-example{font-size:.7rem;color:var(--muted3);line-height:1.5;padding:.5rem .65rem;background:rgba(255,255,255,.02);border:1px solid var(--rule);border-radius:8px;font-style:italic}
+.agent-example::before{content:'"'}
+.agent-example::after{content:'"'}
+
+/* Agent card colors */
+.agent-card:nth-child(1)::before{background:linear-gradient(90deg,var(--teal),transparent)}
+.agent-card:nth-child(1) .agent-ico{background:rgba(13,207,185,.08);border-color:rgba(13,207,185,.2);color:var(--teal)}
+.agent-card:nth-child(2)::before{background:linear-gradient(90deg,var(--blue),transparent)}
+.agent-card:nth-child(2) .agent-ico{background:rgba(79,142,255,.08);border-color:rgba(79,142,255,.2);color:var(--blue)}
+.agent-card:nth-child(3)::before{background:linear-gradient(90deg,var(--purple),transparent)}
+.agent-card:nth-child(3) .agent-ico{background:rgba(167,139,250,.08);border-color:rgba(167,139,250,.2);color:var(--purple)}
+.agent-card:nth-child(4)::before{background:linear-gradient(90deg,var(--green),transparent)}
+.agent-card:nth-child(4) .agent-ico{background:rgba(74,222,128,.08);border-color:rgba(74,222,128,.2);color:var(--green)}
+.agent-card:nth-child(5)::before{background:linear-gradient(90deg,var(--amber),transparent)}
+.agent-card:nth-child(5) .agent-ico{background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.2);color:var(--amber)}
+.agent-card:nth-child(6)::before{background:linear-gradient(90deg,var(--rose),transparent)}
+.agent-card:nth-child(6) .agent-ico{background:rgba(244,114,182,.08);border-color:rgba(244,114,182,.2);color:var(--rose)}
+.agent-card:nth-child(7)::before{background:linear-gradient(90deg,var(--sky),transparent)}
+.agent-card:nth-child(7) .agent-ico{background:rgba(96,165,250,.08);border-color:rgba(96,165,250,.2);color:var(--sky)}
+
+.agents-highlight{background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--glass-border2);border-radius:14px;padding:1.5rem 2rem;margin-top:2.25rem;text-align:center;position:relative;overflow:hidden}
+.agents-highlight::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--blue),var(--purple))}
+.agents-highlight p{font-size:.9rem;color:var(--muted2);line-height:1.7;font-weight:500}
+.agents-highlight strong{color:var(--white)}
+
+/* AUTHORITY */
+.auth-cols{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.auth-text .slead{color:var(--muted2);margin-bottom:0}
+.auth-cards{display:flex;flex-direction:column;gap:.65rem}
+.auth-card{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:12px;padding:1.15rem 1.25rem;display:flex;align-items:center;gap:1rem;transition:all .25s}
+.auth-card:hover{border-color:var(--glass-border2);transform:translateX(4px)}
+.auth-ico{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid}
+.auth-ico svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.auth-card:nth-child(1) .auth-ico{background:rgba(13,207,185,.08);border-color:rgba(13,207,185,.2);color:var(--teal)}
+.auth-card:nth-child(2) .auth-ico{background:rgba(79,142,255,.08);border-color:rgba(79,142,255,.2);color:var(--blue)}
+.auth-card:nth-child(3) .auth-ico{background:rgba(167,139,250,.08);border-color:rgba(167,139,250,.2);color:var(--purple)}
+.auth-card:nth-child(4) .auth-ico{background:rgba(74,222,128,.08);border-color:rgba(74,222,128,.2);color:var(--green)}
+.auth-card-text{font-size:.82rem;color:var(--muted2);line-height:1.5}
 
 /* CTA */
-.s-cta{background:var(--ink);padding:7rem 2.5rem;text-align:center;position:relative;overflow:hidden}
-.s-cta::before{content:'';position:absolute;bottom:-180px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(13,207,185,.07) 0%,transparent 65%);pointer-events:none}
-.s-cta h2{color:var(--white);max-width:600px;margin:0 auto 1.1rem}
-.s-cta .stag{text-align:center;margin-bottom:1.1rem}
-.s-cta p{color:var(--muted);font-size:.975rem;max-width:440px;margin:0 auto 2.75rem;line-height:1.78}
+.s-cta{padding:8rem 2.5rem;text-align:center;position:relative;overflow:hidden}
+.s-cta::before{content:'';position:absolute;bottom:-200px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(13,207,185,.06) 0%,rgba(79,142,255,.03) 30%,transparent 65%);pointer-events:none}
+.cta-card{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--glass-border2);border-radius:20px;padding:3.5rem 3rem;max-width:650px;margin:0 auto;position:relative;overflow:hidden}
+.cta-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--blue),var(--purple))}
+.cta-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--teal),transparent);opacity:.3}
+.s-cta h2{color:var(--white);max-width:520px;margin:0 auto 1rem}
+.s-cta .stag{text-align:center;margin-bottom:1rem;justify-content:center}
+.s-cta .stag::before{display:none}
+.s-cta p{color:var(--muted2);font-size:.92rem;max-width:440px;margin:0 auto 2.25rem;line-height:1.75}
+.s-cta .btn{margin:0 auto}
+.cta-note{color:var(--muted);font-size:.78rem;margin-top:1.25rem;margin-bottom:0;opacity:.7}
 
 /* FOOTER */
-footer{background:var(--ink);border-top:1px solid var(--rule-dark);padding:1.75rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+footer{background:var(--ink);border-top:1px solid var(--rule);padding:1.75rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
 .foot-brand{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.82rem;color:var(--muted)}
 .foot-brand span{color:var(--teal)}
-.foot-copy{font-size:.75rem;color:var(--muted);opacity:.55}
+.foot-copy{font-size:.72rem;color:var(--muted);opacity:.5}
 
 /* REVEAL */
-.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .65s ease,transform .65s ease}
 .reveal.on{opacity:1;transform:none}
 
 /* RESPONSIVE */
+@media(max-width:1024px){
+  .hero-inner{grid-template-columns:1fr;gap:3rem}
+  .hero-mockup{order:2}
+  .hero-text{order:1;text-align:center;max-width:600px;margin:0 auto}
+  .hero-sub{margin-left:auto;margin-right:auto}
+  .hero-cta-row{align-items:center}
+  .hero-benefits{justify-content:center}
+  .how-flow{grid-template-columns:repeat(2,1fr);gap:1.5rem}
+  .how-flow::before{display:none}
+  .svc-groups{grid-template-columns:1fr}
+  .agents-grid{grid-template-columns:repeat(2,1fr)}
+}
 @media(max-width:960px){
-  .diag-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;gap:1rem}
+  .diag-grid{grid-template-columns:1fr 1fr;gap:1rem}
   .diag-arrow{display:none}
   .pain-grid{grid-template-columns:repeat(2,1fr)}
+  .sol-grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:700px){
-  nav{padding:.9rem 1.25rem}
-  .hero{padding:7rem 1.25rem 4rem}
+  nav{padding:.85rem 1.25rem}
+  .hero{padding:6.5rem 1.25rem 4rem}
   .s,.s-diag{padding:4rem 1.25rem}
   .s-cta{padding:5rem 1.25rem}
-  .concept-cols{grid-template-columns:1fr}
-  .svc-grid{grid-template-columns:1fr}
+  .concept-cols,.auth-cols{grid-template-columns:1fr}
+  .pain-grid{grid-template-columns:1fr}
+  .sol-grid{grid-template-columns:1fr}
+  .how-flow{grid-template-columns:1fr}
+  .agents-grid{grid-template-columns:1fr}
+  .svc-groups{grid-template-columns:1fr}
   .diag-grid{grid-template-columns:1fr}
+  .cta-card{padding:2.5rem 1.5rem}
   footer{flex-direction:column;align-items:center;text-align:center;padding:1.5rem 1.25rem}
-  .trust{padding:1.375rem 1.25rem}
+  .trust{padding:1.25rem 1.25rem}
   .tdot{display:none}
+  .mockup-float{display:none}
+  .mockup-stats{grid-template-columns:repeat(3,1fr);gap:.25rem}
 }
 @media(max-width:520px){
-  .pain-grid{grid-template-columns:1fr}
-  h1{font-size:2.15rem}
-  .nav-cta{font-size:.74rem;padding:.5rem 1rem}
+  h1{font-size:1.95rem}
+  .nav-cta{font-size:.72rem;padding:.45rem .9rem}
+  .agents-grid{grid-template-columns:1fr}
 }
 </style>
 
@@ -166,17 +364,78 @@ footer{background:var(--ink);border-top:1px solid var(--rule-dark);padding:1.75r
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-dots"></div>
+  <div class="hero-grid"></div>
   <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
   <div class="hero-inner">
-    <div class="eyebrow">Engenharia de Produção + IA</div>
-    <h1>Processos mais inteligentes.<br><mark>Negócios mais eficientes.</mark></h1>
-    <p class="hero-sub">Ajudo negócios a reduzir bagunça operacional, organizar rotinas e integrar IA aos processos para gerar mais controle, eficiência e resultado real.</p>
-    <a href="pre-diagnostico.html" class="btn">
-      <svg class="wico" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.126 1.523 5.867L.057 23.857a.5.5 0 0 0 .609.61l6.098-1.463A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.9 0-3.7-.5-5.27-1.38l-.38-.22-3.92.94.97-3.82-.24-.39A10 10 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-      Fazer diagnóstico gratuito
-    </a>
+    <div class="hero-text">
+      <div class="eyebrow">Diagnóstico · Processos · Agentes de IA</div>
+      <h1>Agentes de IA conectados aos processos da sua empresa, acessíveis <mark>pelo WhatsApp.</mark></h1>
+      <p class="hero-sub">Organizo seus processos, identifico gargalos e implanto agentes de IA especialistas por área — atendimento, administrativo, financeiro, estoque, RH e operação — tudo acessível pelo WhatsApp.</p>
+      <div class="hero-cta-row">
+        <a href="pre-diagnostico.html" class="btn">
+          Solicitar diagnóstico gratuito
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+        <div class="hero-benefits">
+          <span class="hero-benefit">Atendimento</span>
+          <span class="hero-benefit">Administrativo</span>
+          <span class="hero-benefit">Financeiro</span>
+          <span class="hero-benefit">Estoque</span>
+          <span class="hero-benefit">RH</span>
+          <span class="hero-benefit">Operação</span>
+        </div>
+      </div>
     </div>
+    <div class="hero-mockup">
+      <div class="mockup">
+        <div class="mockup-head">
+          <div class="mockup-dot r"></div>
+          <div class="mockup-dot y"></div>
+          <div class="mockup-dot g"></div>
+          <div class="mockup-title">Central de Agentes IA</div>
+        </div>
+        <div class="mockup-body">
+          <div class="chat-msg">
+            <div class="chat-avatar user">VP</div>
+            <div>
+              <div class="chat-bubble">Quais contas vencem hoje?</div>
+              <div class="chat-time">09:12</div>
+            </div>
+          </div>
+          <div class="chat-msg right">
+            <div class="chat-avatar agent">FI</div>
+            <div>
+              <div class="chat-label">Agente Financeiro</div>
+              <div class="chat-bubble">Encontrei <strong>3 vencimentos para hoje</strong>: fornecedor R$ 4.200, aluguel R$ 8.500 e software R$ 890. Total: <strong>R$ 13.590</strong>.</div>
+              <div class="chat-time">09:12 · consultado via ERP</div>
+            </div>
+          </div>
+          <div class="agents-row">
+            <div class="agent-badge ab-at">Atendimento</div>
+            <div class="agent-badge ab-ad">Administrativo</div>
+            <div class="agent-badge ab-fi">Financeiro</div>
+            <div class="agent-badge ab-es">Estoque</div>
+            <div class="agent-badge ab-rh">RH</div>
+            <div class="agent-badge ab-op">Operação</div>
+          </div>
+          <div class="mockup-stats">
+            <div class="mstat"><div class="mstat-num c1">12</div><div class="mstat-label">tarefas organizadas</div></div>
+            <div class="mstat"><div class="mstat-num c2">3</div><div class="mstat-label">alertas críticos</div></div>
+            <div class="mstat"><div class="mstat-num c3">5</div><div class="mstat-label">processos automatizáveis</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="mockup-float mf-1">
+        <div class="mf-ico t"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        Alerta enviado
+      </div>
+      <div class="mockup-float mf-2">
+        <div class="mf-ico b"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+        Dados atualizados
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- TRUST BAR -->
@@ -186,20 +445,20 @@ footer{background:var(--ink);border-top:1px solid var(--rule-dark);padding:1.75r
     <div class="tdot"></div>
     <div class="trust-item"><svg class="ti" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Processos &amp; Eficiência</div>
     <div class="tdot"></div>
-    <div class="trust-item"><svg class="ti" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>IA Aplicada a Negócios</div>
+    <div class="trust-item"><svg class="ti" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>Agentes de IA por Área</div>
     <div class="tdot"></div>
-    <div class="trust-item"><svg class="ti" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Diagnóstico Rápido e Prático</div>
+    <div class="trust-item"><svg class="ti" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Acesso via WhatsApp</div>
   </div>
 </div>
 
 <!-- PAIN -->
-<section class="s" style="background:var(--white)">
+<section class="s" style="background:var(--ink)">
   <div class="wrap">
     <div class="stag reveal">O problema real</div>
-    <h2 style="color:var(--light-fg)" class="reveal">Sua empresa está crescendo,<br>mas a rotina continua no improviso?</h2>
-    <p class="slead reveal" style="color:var(--light-body)">Muitas empresas não perdem resultado por falta de esforço. Elas perdem por falta de processo — e o problema costuma ser invisível para quem está dentro.</p>
+    <h2 style="color:var(--white)" class="reveal">Sua empresa pode não estar perdendo dinheiro por falta de venda.<br>Pode estar perdendo por falta de <mark style="background:none;-webkit-text-fill-color:var(--teal);color:var(--teal)">processo.</mark></h2>
+    <p class="slead reveal">Muitas empresas não perdem resultado por falta de esforço. Elas perdem por falta de processo — e o problema costuma ser invisível para quem está dentro.</p>
     <div class="pain-grid">
-      <div class="pain-card reveal"><div class="p-ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="9"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div><p>Informação que se perde no meio do caminho</p></div>
+      <div class="pain-card reveal"><div class="p-ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="9"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div><p>Informações perdidas no WhatsApp e entre equipes</p></div>
       <div class="pain-card reveal"><div class="p-ico"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/></svg></div><p>Retrabalho constante sem causa identificada</p></div>
       <div class="pain-card reveal"><div class="p-ico"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><path d="M20 4h-4m2-2v4"/></svg></div><p>Decisões tomadas no achismo, sem dados</p></div>
       <div class="pain-card reveal"><div class="p-ico"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="17" y1="11" x2="22" y2="6"/><line x1="22" y1="11" x2="17" y2="6"/></svg></div><p>Tarefas sem responsável e sem prazo definido</p></div>
@@ -210,7 +469,7 @@ footer{background:var(--ink);border-top:1px solid var(--rule-dark);padding:1.75r
 </section>
 
 <!-- CONCEPT -->
-<section class="s" style="background:var(--ink)">
+<section class="s" style="background:var(--ink2)">
   <div class="wrap">
     <div class="concept-cols">
       <div class="concept-text">
@@ -226,19 +485,90 @@ footer{background:var(--ink);border-top:1px solid var(--rule-dark);padding:1.75r
         <div class="cc-q"><div class="cc-n">02</div><div class="cc-text">Onde a informação para ou desaparece?</div></div>
         <div class="cc-q"><div class="cc-n">03</div><div class="cc-text">Quais etapas geram mais retrabalho?</div></div>
         <div class="cc-q"><div class="cc-n">04</div><div class="cc-text">O que o dono não consegue enxergar?</div></div>
-        <div class="cc-q"><div class="cc-n">05</div><div class="cc-text">O que pode ser automatizado com segurança?</div></div>
+        <div class="cc-q"><div class="cc-n">05</div><div class="cc-text">O que pode ser automatizado com IA?</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- METHODOLOGY = DIAGNOSTIC STEPS -->
+<!-- HOW IT WORKS -->
+<section class="s" style="background:var(--ink)">
+  <div class="wrap">
+    <div class="stag reveal">Como funciona na prática</div>
+    <h2 style="color:var(--white)" class="reveal">Como a IA entra na rotina da empresa</h2>
+    <p class="slead reveal">A equipe continua usando o WhatsApp. A diferença é que agora as mensagens podem acionar agentes, consultar dados e organizar processos.</p>
+    <div class="how-flow">
+      <div class="how-step reveal">
+        <div class="how-num n1">1</div>
+        <div class="how-title" style="color:var(--teal)">Mensagem no WhatsApp</div>
+        <div class="how-desc">O colaborador, gestor ou cliente faz uma pergunta simples pelo WhatsApp, como sempre fez.</div>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-num n2">2</div>
+        <div class="how-title" style="color:var(--blue)">Roteamento para o agente</div>
+        <div class="how-desc">O sistema entende se é atendimento, financeiro, estoque, RH, operação ou gestão e direciona.</div>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-num n3">3</div>
+        <div class="how-title" style="color:var(--purple)">Consulta aos dados</div>
+        <div class="how-desc">O agente acessa apenas as informações permitidas e respeita as regras e permissões da empresa.</div>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-num n4">4</div>
+        <div class="how-title" style="color:var(--green)">Resposta ou alerta</div>
+        <div class="how-desc">A resposta volta no WhatsApp com informação clara, ação sugerida ou alerta automático.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHT BANNER -->
+<section class="s" style="background:var(--ink);padding-top:0;padding-bottom:2rem">
+  <div class="wrap">
+    <div class="highlight-banner reveal" style="background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--glass-border2);border-radius:14px;padding:1.75rem 2.5rem;text-align:center;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),transparent 70%)"></div>
+      <p style="font-size:1rem;color:var(--muted2);line-height:1.7;max-width:600px;margin:0 auto"><strong style="color:var(--teal);font-weight:600">O WhatsApp continua sendo o canal.</strong> A inteligência fica por trás — conectando processos, dados e pessoas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section class="s" style="background:var(--ink)">
+  <div class="wrap">
+    <div class="stag reveal">Solução</div>
+    <h2 style="color:var(--white)" class="reveal">Transforme operação desorganizada<br>em processo inteligente.</h2>
+    <p class="slead reveal">A consultoria entrega soluções práticas para cada etapa da maturidade operacional — do improviso ao controle com IA.</p>
+    <div class="sol-grid">
+      <div class="sol-card s-c1 reveal">
+        <div class="sol-ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+        <div class="sol-title">Mapeamento de processos</div>
+        <div class="sol-desc">Documentação visual de como a operação funciona hoje — fluxos, responsáveis e pontos de falha.</div>
+      </div>
+      <div class="sol-card s-c2 reveal">
+        <div class="sol-ico"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+        <div class="sol-title">Diagnóstico de gargalos</div>
+        <div class="sol-desc">Identificação de onde a operação trava, perde informação e gera retrabalho desnecessário.</div>
+      </div>
+      <div class="sol-card s-c3 reveal">
+        <div class="sol-ico"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg></div>
+        <div class="sol-title">Automações com IA</div>
+        <div class="sol-desc">Aplicação de inteligência artificial em pontos específicos que trazem retorno real e imediato.</div>
+      </div>
+      <div class="sol-card s-c4 reveal">
+        <div class="sol-ico"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><path d="M20 4h-4m2-2v4"/></svg></div>
+        <div class="sol-title">Indicadores de gestão</div>
+        <div class="sol-desc">Dashboards simples com os números que realmente importam para decisões mais seguras.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
 <section class="s-diag">
   <div class="wrap">
     <div class="stag stag-inv reveal">Metodologia</div>
     <h2 style="color:var(--white)" class="reveal">Como funciona o diagnóstico</h2>
     <div class="diag-grid">
-
       <div class="diag-card d1 reveal">
         <div class="dc-bar"></div>
         <div class="dc-top">
@@ -248,9 +578,7 @@ footer{background:var(--ink);border-top:1px solid var(--rule-dark);padding:1.75r
         <div class="dc-title">Diagnóstico</div>
         <div class="dc-desc">Conversa sobre como a empresa funciona hoje, quais são as dores e onde estão os maiores gargalos operacionais.</div>
       </div>
-
       <div class="diag-arrow reveal">→</div>
-
       <div class="diag-card d2 reveal">
         <div class="dc-bar"></div>
         <div class="dc-top">
@@ -260,21 +588,17 @@ footer{background:var(--ink);border-top:1px solid var(--rule-dark);padding:1.75r
         <div class="dc-title">Mapeamento</div>
         <div class="dc-desc">Identifico gargalos, retrabalho, perda de informação e etapas sem controle — de forma visual e clara.</div>
       </div>
-
       <div class="diag-arrow reveal">→</div>
-
       <div class="diag-card d3 reveal">
         <div class="dc-bar"></div>
         <div class="dc-top">
           <div class="dc-step">03 / 04</div>
           <div class="dc-ring"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
         </div>
-        <div class="dc-title">Melhoria com IA</div>
-        <div class="dc-desc">Proponho automações, dashboards, rotinas e controles práticos com IA aplicada onde faz sentido.</div>
+        <div class="dc-title">Agentes de IA por área</div>
+        <div class="dc-desc">Depois de mapear os gargalos, definimos quais processos podem ser apoiados por IA — agentes de atendimento, administrativo, financeiro, estoque, RH ou operação, funcionando pelo WhatsApp.</div>
       </div>
-
       <div class="diag-arrow reveal">→</div>
-
       <div class="diag-card d4 reveal">
         <div class="dc-bar"></div>
         <div class="dc-top">
@@ -282,48 +606,165 @@ footer{background:var(--ink);border-top:1px solid var(--rule-dark);padding:1.75r
           <div class="dc-ring"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
         </div>
         <div class="dc-title">Implementação</div>
-        <div class="dc-desc">Sem sistema caro no início. Soluções simples, aplicáveis e que geram resultado rápido e sustentável.</div>
+        <div class="dc-desc">Agentes via WhatsApp, automações, alertas, consultas a dados, relatórios, fluxos operacionais e redução de tarefas repetitivas — soluções práticas que a equipe consegue usar no dia a dia.</div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- SERVICES -->
-<section class="s" style="background:var(--surface)">
+<!-- SERVICES GROUPED -->
+<section class="s" style="background:var(--ink)">
   <div class="wrap">
     <div class="stag reveal">Serviços</div>
-    <h2 style="color:var(--light-fg)" class="reveal">Como posso ajudar seu negócio</h2>
-    <div class="svc-grid">
-      <div class="svc reveal"><div class="svc-dot"></div>Diagnóstico de processos</div>
-      <div class="svc reveal"><div class="svc-dot"></div>Organização de fluxos de trabalho</div>
-      <div class="svc reveal"><div class="svc-dot"></div>Estruturação de rotinas operacionais</div>
-      <div class="svc reveal"><div class="svc-dot"></div>Automações simples e práticas</div>
-      <div class="svc reveal"><div class="svc-dot"></div>Dashboards e indicadores</div>
-      <div class="svc reveal"><div class="svc-dot"></div>Integração de IA aos processos</div>
-      <div class="svc reveal"><div class="svc-dot"></div>Redução de retrabalho operacional</div>
-      <div class="svc reveal"><div class="svc-dot"></div>Melhoria de produtividade</div>
+    <h2 style="color:var(--white)" class="reveal">Onde posso ajudar sua empresa</h2>
+    <div class="svc-groups">
+      <div class="svc-group sg1 reveal">
+        <div class="svc-group-title" style="color:var(--teal)">Diagnóstico e Processos</div>
+        <div class="svc-group-desc">Organização e mapeamento da operação atual</div>
+        <div class="svc-list">
+          <div class="svc-item"><div class="svc-dot"></div><div class="svc-item-text"><span class="svc-item-name">Diagnóstico de processos</span><span class="svc-item-desc">Análise completa da operação atual</span></div></div>
+          <div class="svc-item"><div class="svc-dot"></div><div class="svc-item-text"><span class="svc-item-name">Mapeamento de gargalos</span><span class="svc-item-desc">Identificação de onde a operação trava</span></div></div>
+          <div class="svc-item"><div class="svc-dot"></div><div class="svc-item-text"><span class="svc-item-name">Organização de fluxos internos</span><span class="svc-item-desc">Processos claros, responsáveis definidos</span></div></div>
+        </div>
+      </div>
+      <div class="svc-group sg2 reveal">
+        <div class="svc-group-title" style="color:var(--blue)">Agentes e Automação</div>
+        <div class="svc-group-desc">IA aplicada onde gera retorno real</div>
+        <div class="svc-list">
+          <div class="svc-item"><div class="svc-dot"></div><div class="svc-item-text"><span class="svc-item-name">Agentes de IA via WhatsApp</span><span class="svc-item-desc">Especialistas por área acessíveis pelo WhatsApp</span></div></div>
+          <div class="svc-item"><div class="svc-dot"></div><div class="svc-item-text"><span class="svc-item-name">Automação de tarefas repetitivas</span><span class="svc-item-desc">Redução de retrabalho e tarefas manuais</span></div></div>
+          <div class="svc-item"><div class="svc-dot"></div><div class="svc-item-text"><span class="svc-item-name">Atendimento inteligente</span><span class="svc-item-desc">Respostas qualificadas e direcionamento</span></div></div>
+          <div class="svc-item"><div class="svc-dot"></div><div class="svc-item-text"><span class="svc-item-name">Integração com dados da empresa</span><span class="svc-item-desc">Informações conectadas em um só lugar</span></div></div>
+        </div>
+      </div>
+      <div class="svc-group sg3 reveal">
+        <div class="svc-group-title" style="color:var(--green)">Gestão e Controle</div>
+        <div class="svc-group-desc">Visibilidade e decisões baseadas em dados</div>
+        <div class="svc-list">
+          <div class="svc-item"><div class="svc-dot"></div><div class="svc-item-text"><span class="svc-item-name">Consultas financeiras e operacionais</span><span class="svc-item-desc">Vencimentos, estoque, indicadores sob demanda</span></div></div>
+          <div class="svc-item"><div class="svc-dot"></div><div class="svc-item-text"><span class="svc-item-name">Alertas e relatórios automáticos</span><span class="svc-item-desc">Informações certas, no momento certo</span></div></div>
+          <div class="svc-item"><div class="svc-dot"></div><div class="svc-item-text"><span class="svc-item-name">Indicadores para gestão</span><span class="svc-item-desc">Dashboards simples para decisões mais seguras</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AGENTS ARCHITECTURE -->
+<section class="s" style="background:var(--ink2)">
+  <div class="wrap agents-arch">
+    <div class="stag stag-inv reveal">Agentes de IA</div>
+    <h2 style="color:var(--white)" class="reveal">Agentes de IA para cada área<br>da empresa.</h2>
+    <p class="slead reveal">Não é apenas um bot de atendimento. É uma camada de IA conectada aos processos da empresa, com agentes especialistas por área.</p>
+    <div class="arch-center reveal">
+      <div class="arch-whatsapp">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>WhatsApp como porta de entrada</span>
+      </div>
+      <div class="arch-subtitle">A equipe fala no WhatsApp. Por trás, <strong>agentes especializados trabalham por área</strong> — consultando dados, organizando demandas, gerando alertas e apoiando decisões.</div>
+    </div>
+    <div class="agents-grid">
+      <div class="agent-card reveal">
+        <div class="agent-ico"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div class="agent-title">Agente de Atendimento</div>
+        <div class="agent-desc">Responde clientes, qualifica contatos, organiza solicitações e direciona oportunidades.</div>
+        <div class="agent-example">Quais são os planos disponíveis?</div>
+      </div>
+      <div class="agent-card reveal">
+        <div class="agent-ico"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg></div>
+        <div class="agent-title">Agente Administrativo</div>
+        <div class="agent-desc">Organiza pendências, documentos, tarefas internas e informações espalhadas.</div>
+        <div class="agent-example">Quais pendências estão abertas?</div>
+      </div>
+      <div class="agent-card reveal">
+        <div class="agent-ico"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="agent-title">Agente Financeiro</div>
+        <div class="agent-desc">Consulta vencimentos, contas a pagar, receber, inadimplências e resumos.</div>
+        <div class="agent-example">Quais contas vencem hoje?</div>
+      </div>
+      <div class="agent-card reveal">
+        <div class="agent-ico"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+        <div class="agent-title">Agente de Estoque</div>
+        <div class="agent-desc">Acompanha produtos, entradas, saídas, estoque mínimo e necessidades de compra.</div>
+        <div class="agent-example">Quanto temos do produto X?</div>
+      </div>
+      <div class="agent-card reveal">
+        <div class="agent-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="agent-title">Agente de RH</div>
+        <div class="agent-desc">Apoia no controle de documentos, férias, faltas, atestados e admissões.</div>
+        <div class="agent-example">Quem está de férias este mês?</div>
+      </div>
+      <div class="agent-card reveal">
+        <div class="agent-ico"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+        <div class="agent-title">Agente Operacional</div>
+        <div class="agent-desc">Registra ocorrências, acompanha rotinas, checklists, manutenção e produção.</div>
+        <div class="agent-example">Registrar ocorrência na linha 3</div>
+      </div>
+      <div class="agent-card reveal">
+        <div class="agent-ico"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <div class="agent-title">Agente de Gestão</div>
+        <div class="agent-desc">Gera resumos, alertas e indicadores para o gestor acompanhar a operação.</div>
+        <div class="agent-example">Me envie o resumo do dia</div>
+      </div>
+    </div>
+    <div class="agents-highlight reveal">
+      <p><strong>Tudo isso com acesso simples pelo WhatsApp,</strong> sem exigir que a equipe aprenda um sistema complexo. Processos organizados, dados conectados, agentes trabalhando por trás.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AUTHORITY -->
+<section class="s" style="background:var(--ink)">
+  <div class="wrap">
+    <div class="auth-cols">
+      <div class="auth-text">
+        <div class="stag stag-inv reveal">Por que com Victor</div>
+        <h2 style="color:var(--white)" class="reveal">Processos organizados<br>antes de qualquer IA.</h2>
+        <p class="slead reveal" style="color:var(--muted2)">A diferença não está só em usar ferramentas de IA. Está em entender processos, gargalos, produtividade, fluxo de trabalho, desperdício e melhoria contínua.</p>
+        <p class="slead reveal" style="color:var(--muted2);margin-bottom:0">Engenharia de Produção é a base para saber o que automatizar, o que organizar e o que melhorar — antes de colocar IA no meio. Agentes de IA só funcionam bem quando os processos estão entendidos e organizados.</p>
+      </div>
+      <div class="auth-cards">
+        <div class="auth-card reveal">
+          <div class="auth-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="auth-card-text">Foco em processo real, não em ferramenta bonita</div>
+        </div>
+        <div class="auth-card reveal">
+          <div class="auth-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="auth-card-text">Diagnóstico antes de qualquer implementação</div>
+        </div>
+        <div class="auth-card reveal">
+          <div class="auth-ico"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><path d="M20 4h-4m2-2v4"/></svg></div>
+          <div class="auth-card-text">Indicadores que mostram resultado, não vaidade</div>
+        </div>
+        <div class="auth-card reveal">
+          <div class="auth-ico"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="auth-card-text">Soluções simples que a empresa consegue usar</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
-<section class="s-cta">
+<section class="s-cta" style="background:var(--ink)">
   <div class="wrap" style="position:relative">
-    <div class="stag stag-inv reveal">Pronto para começar?</div>
-    <h2 class="reveal">Quer descobrir onde sua<br>empresa está perdendo eficiência?</h2>
-    <p class="reveal">Comece com um diagnóstico. Uma conversa direta, sem compromisso, para entender onde está a bagunça e o que pode melhorar.</p>
-    <a href="pre-diagnostico.html" class="btn reveal">
-      <svg class="wico" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.126 1.523 5.867L.057 23.857a.5.5 0 0 0 .609.61l6.098-1.463A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.9 0-3.7-.5-5.27-1.38l-.38-.22-3.92.94.97-3.82-.24-.39A10 10 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-      Fazer diagnóstico gratuito
-    </a>
+    <div class="cta-card">
+      <div class="stag stag-inv reveal">Pronto para começar?</div>
+      <h2 class="reveal">Antes de automatizar, descubra onde sua<br>empresa está travando.</h2>
+      <p class="reveal">Solicite um diagnóstico gratuito e veja quais processos podem ser organizados, melhorados ou apoiados por agentes de IA via WhatsApp.</p>
+      <a href="pre-diagnostico.html" class="btn reveal">
+        Solicitar diagnóstico gratuito
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+      <p class="cta-note reveal">Sem compromisso. Uma conversa objetiva para entender sua operação.</p>
+    </div>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer>
+<footer style="background:var(--ink)">
   <div class="foot-brand">Victor Petra <span>|</span> IA &amp; Negócios</div>
-  <div class="foot-copy">© 2025 · Engenharia de Produção + IA para negócios reais</div>
+  <div class="foot-copy">© 2026 · Engenharia de Produção + IA para negócios reais</div>
 </footer>
 
 <script>
