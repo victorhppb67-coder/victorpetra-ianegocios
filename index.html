@@ -269,6 +269,22 @@ h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.6rem,3vw,2.25rem);fo
 .agents-highlight p{font-size:.9rem;color:var(--muted2);line-height:1.7;font-weight:500}
 .agents-highlight strong{color:var(--white)}
 
+
+/* OFFER & CREDENTIALS */
+.offer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.5rem}
+.offer-card{background:var(--glass);backdrop-filter:blur(14px);border:1px solid var(--glass-border);border-radius:16px;padding:1.55rem;position:relative;overflow:hidden;transition:all .25s}
+.offer-card:hover{border-color:var(--glass-border2);transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.22)}
+.offer-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--blue),transparent)}
+.offer-kicker{font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.75rem}
+.offer-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.55rem;line-height:1.25}
+.offer-desc{font-size:.82rem;color:var(--muted2);line-height:1.62}
+.cred-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-top:2rem}
+.cred-item{background:rgba(255,255,255,.03);border:1px solid var(--rule);border-radius:12px;padding:1.1rem}
+.cred-num{font-family:'Space Grotesk',sans-serif;font-size:1.45rem;font-weight:700;color:var(--teal);line-height:1}
+.cred-label{font-size:.75rem;color:var(--muted2);line-height:1.45;margin-top:.35rem}
+.auth-note{font-size:.84rem;color:var(--muted);line-height:1.65;margin-top:1.15rem}
+@media(max-width:960px){.offer-grid{grid-template-columns:1fr}.cred-strip{grid-template-columns:1fr}}
+
 /* AUTHORITY */
 .auth-cols{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
 .auth-text .slead{color:var(--muted2);margin-bottom:0}
@@ -370,20 +386,20 @@ footer{background:var(--ink);border-top:1px solid var(--rule);padding:1.75rem 2.
   <div class="hero-inner">
     <div class="hero-text">
       <div class="eyebrow">Diagnóstico · Processos · Agentes de IA</div>
-      <h1>Agentes de IA conectados aos processos da sua empresa, acessíveis <mark>pelo WhatsApp.</mark></h1>
-      <p class="hero-sub">Organizo seus processos, identifico gargalos e implanto agentes de IA especialistas por área — atendimento, administrativo, financeiro, estoque, RH e operação — tudo acessível pelo WhatsApp.</p>
+      <h1>Transforme o WhatsApp da sua empresa em uma <mark>central de processos com IA.</mark></h1>
+      <p class="hero-sub">Combinando Engenharia de Produção, análise de processos e IA aplicada, eu ajudo empresas a reduzir retrabalho, organizar rotinas e implantar agentes inteligentes por área — tudo acessível pelo WhatsApp.</p>
       <div class="hero-cta-row">
         <a href="pre-diagnostico.html" class="btn">
           Solicitar diagnóstico gratuito
           <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
         </a>
         <div class="hero-benefits">
-          <span class="hero-benefit">Atendimento</span>
-          <span class="hero-benefit">Administrativo</span>
-          <span class="hero-benefit">Financeiro</span>
-          <span class="hero-benefit">Estoque</span>
-          <span class="hero-benefit">RH</span>
-          <span class="hero-benefit">Operação</span>
+          <span class="hero-benefit">Diagnóstico</span>
+          <span class="hero-benefit">Processos</span>
+          <span class="hero-benefit">WhatsApp</span>
+          <span class="hero-benefit">Agentes por área</span>
+          <span class="hero-benefit">Indicadores</span>
+          <span class="hero-benefit">Automação</span>
         </div>
       </div>
     </div>
@@ -399,7 +415,7 @@ footer{background:var(--ink);border-top:1px solid var(--rule);padding:1.75rem 2.
           <div class="chat-msg">
             <div class="chat-avatar user">VP</div>
             <div>
-              <div class="chat-bubble">Quais contas vencem hoje?</div>
+              <div class="chat-bubble">Quais clientes estão em atraso?</div>
               <div class="chat-time">09:12</div>
             </div>
           </div>
@@ -407,8 +423,8 @@ footer{background:var(--ink);border-top:1px solid var(--rule);padding:1.75rem 2.
             <div class="chat-avatar agent">FI</div>
             <div>
               <div class="chat-label">Agente Financeiro</div>
-              <div class="chat-bubble">Encontrei <strong>3 vencimentos para hoje</strong>: fornecedor R$ 4.200, aluguel R$ 8.500 e software R$ 890. Total: <strong>R$ 13.590</strong>.</div>
-              <div class="chat-time">09:12 · consultado via ERP</div>
+              <div class="chat-bubble">Consultei os dados permitidos e encontrei <strong>3 clientes em atraso</strong>. Posso gerar um resumo com valores, responsáveis e próximos contatos.</div>
+              <div class="chat-time">09:12 · consulta segura</div>
             </div>
           </div>
           <div class="agents-row">
@@ -420,9 +436,9 @@ footer{background:var(--ink);border-top:1px solid var(--rule);padding:1.75rem 2.
             <div class="agent-badge ab-op">Operação</div>
           </div>
           <div class="mockup-stats">
-            <div class="mstat"><div class="mstat-num c1">12</div><div class="mstat-label">tarefas organizadas</div></div>
-            <div class="mstat"><div class="mstat-num c2">3</div><div class="mstat-label">alertas críticos</div></div>
-            <div class="mstat"><div class="mstat-num c3">5</div><div class="mstat-label">processos automatizáveis</div></div>
+            <div class="mstat"><div class="mstat-num c1">12</div><div class="mstat-label">pendências mapeadas</div></div>
+            <div class="mstat"><div class="mstat-num c2">3</div><div class="mstat-label">alertas gerados</div></div>
+            <div class="mstat"><div class="mstat-num c3">5</div><div class="mstat-label">rotinas repetitivas</div></div>
           </div>
         </div>
       </div>
@@ -456,7 +472,7 @@ footer{background:var(--ink);border-top:1px solid var(--rule);padding:1.75rem 2.
   <div class="wrap">
     <div class="stag reveal">O problema real</div>
     <h2 style="color:var(--white)" class="reveal">Sua empresa pode não estar perdendo dinheiro por falta de venda.<br>Pode estar perdendo por falta de <mark style="background:none;-webkit-text-fill-color:var(--teal);color:var(--teal)">processo.</mark></h2>
-    <p class="slead reveal">Muitas empresas não perdem resultado por falta de esforço. Elas perdem por falta de processo — e o problema costuma ser invisível para quem está dentro.</p>
+    <p class="slead reveal">Muitas empresas não perdem resultado por falta de esforço. Elas perdem porque a rotina depende de mensagens soltas, planilhas desconectadas, tarefas sem responsável e decisões sem visibilidade.</p>
     <div class="pain-grid">
       <div class="pain-card reveal"><div class="p-ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="9"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div><p>Informações perdidas no WhatsApp e entre equipes</p></div>
       <div class="pain-card reveal"><div class="p-ico"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/></svg></div><p>Retrabalho constante sem causa identificada</p></div>
@@ -476,7 +492,7 @@ footer{background:var(--ink);border-top:1px solid var(--rule);padding:1.75rem 2.
         <div class="stag stag-inv reveal">A abordagem</div>
         <h2 style="color:var(--white)" class="reveal">Primeiro processo.<br>Depois IA.</h2>
         <p class="slead reveal" style="color:var(--muted2);margin-bottom:1rem">IA não resolve processo bagunçado. Antes de automatizar qualquer coisa, precisamos entender como a rotina realmente funciona — onde ela trava, perde informação e gera retrabalho.</p>
-        <p class="slead reveal" style="color:var(--muted2);margin-bottom:0">Minha formação é em Engenharia de Produção: processo, fluxo, melhoria contínua e eficiência operacional. A IA entra como ferramenta — não como promessa.</p>
+        <p class="slead reveal" style="color:var(--muted2);margin-bottom:0">Minha base vem da Engenharia de Produção: processos, indicadores, rotina operacional, melhoria contínua e controle. A IA entra como ferramenta para acelerar o que já foi bem entendido.</p>
         <p class="concept-accent reveal">IA potencializa processos bem pensados.<br>Não substitui a falta deles.</p>
       </div>
       <div class="concept-card reveal">
@@ -537,7 +553,7 @@ footer{background:var(--ink);border-top:1px solid var(--rule);padding:1.75rem 2.
   <div class="wrap">
     <div class="stag reveal">Solução</div>
     <h2 style="color:var(--white)" class="reveal">Transforme operação desorganizada<br>em processo inteligente.</h2>
-    <p class="slead reveal">A consultoria entrega soluções práticas para cada etapa da maturidade operacional — do improviso ao controle com IA.</p>
+    <p class="slead reveal">A entrega é prática: entender a operação, organizar o fluxo, definir o que precisa de controle e aplicar IA apenas onde ela reduz esforço repetitivo ou melhora a tomada de decisão.</p>
     <div class="sol-grid">
       <div class="sol-card s-c1 reveal">
         <div class="sol-ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
@@ -558,6 +574,33 @@ footer{background:var(--ink);border-top:1px solid var(--rule);padding:1.75rem 2.
         <div class="sol-ico"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><path d="M20 4h-4m2-2v4"/></svg></div>
         <div class="sol-title">Indicadores de gestão</div>
         <div class="sol-desc">Dashboards simples com os números que realmente importam para decisões mais seguras.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- OFFER VALUE -->
+<section class="s" style="background:var(--ink2)">
+  <div class="wrap">
+    <div class="stag stag-inv reveal">O que você contrata</div>
+    <h2 style="color:var(--white)" class="reveal">Não é um chatbot isolado.<br>É uma melhoria de processo com IA aplicada.</h2>
+    <p class="slead reveal">A proposta é entender como sua empresa funciona, organizar os pontos críticos e transformar tarefas repetitivas em fluxos mais claros, automatizados e fáceis de usar pela equipe.</p>
+    <div class="offer-grid">
+      <div class="offer-card reveal">
+        <div class="offer-kicker">01</div>
+        <div class="offer-title">Diagnóstico real da operação</div>
+        <div class="offer-desc">Mapeio gargalos, retrabalho, perda de informação, tarefas sem responsável e pontos onde o dono fica sem visibilidade.</div>
+      </div>
+      <div class="offer-card reveal">
+        <div class="offer-kicker">02</div>
+        <div class="offer-title">Desenho dos fluxos e responsabilidades</div>
+        <div class="offer-desc">Antes de automatizar, organizamos o processo: quem faz, quando faz, onde registra e qual informação precisa aparecer.</div>
+      </div>
+      <div class="offer-card reveal">
+        <div class="offer-kicker">03</div>
+        <div class="offer-title">Agentes de IA via WhatsApp</div>
+        <div class="offer-desc">Depois, criamos agentes para atendimento, administrativo, financeiro, estoque, RH, operação ou gestão — sempre com regras e limites claros.</div>
       </div>
     </div>
   </div>
@@ -668,25 +711,25 @@ footer{background:var(--ink);border-top:1px solid var(--rule);padding:1.75rem 2.
         <div class="agent-ico"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
         <div class="agent-title">Agente de Atendimento</div>
         <div class="agent-desc">Responde clientes, qualifica contatos, organiza solicitações e direciona oportunidades.</div>
-        <div class="agent-example">Quais são os planos disponíveis?</div>
+        <div class="agent-example">Quero saber sobre o serviço.</div>
       </div>
       <div class="agent-card reveal">
         <div class="agent-ico"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg></div>
         <div class="agent-title">Agente Administrativo</div>
         <div class="agent-desc">Organiza pendências, documentos, tarefas internas e informações espalhadas.</div>
-        <div class="agent-example">Quais pendências estão abertas?</div>
+        <div class="agent-example">Quais pendências estão sem responsável?</div>
       </div>
       <div class="agent-card reveal">
         <div class="agent-ico"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
         <div class="agent-title">Agente Financeiro</div>
         <div class="agent-desc">Consulta vencimentos, contas a pagar, receber, inadimplências e resumos.</div>
-        <div class="agent-example">Quais contas vencem hoje?</div>
+        <div class="agent-example">Quais clientes estão em atraso?</div>
       </div>
       <div class="agent-card reveal">
         <div class="agent-ico"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
         <div class="agent-title">Agente de Estoque</div>
         <div class="agent-desc">Acompanha produtos, entradas, saídas, estoque mínimo e necessidades de compra.</div>
-        <div class="agent-example">Quanto temos do produto X?</div>
+        <div class="agent-example">Quais produtos estão abaixo do mínimo?</div>
       </div>
       <div class="agent-card reveal">
         <div class="agent-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
@@ -718,29 +761,35 @@ footer{background:var(--ink);border-top:1px solid var(--rule);padding:1.75rem 2.
   <div class="wrap">
     <div class="auth-cols">
       <div class="auth-text">
-        <div class="stag stag-inv reveal">Por que com Victor</div>
-        <h2 style="color:var(--white)" class="reveal">Processos organizados<br>antes de qualquer IA.</h2>
-        <p class="slead reveal" style="color:var(--muted2)">A diferença não está só em usar ferramentas de IA. Está em entender processos, gargalos, produtividade, fluxo de trabalho, desperdício e melhoria contínua.</p>
-        <p class="slead reveal" style="color:var(--muted2);margin-bottom:0">Engenharia de Produção é a base para saber o que automatizar, o que organizar e o que melhorar — antes de colocar IA no meio. Agentes de IA só funcionam bem quando os processos estão entendidos e organizados.</p>
+        <div class="stag stag-inv reveal">Quem conduz o diagnóstico</div>
+        <h2 style="color:var(--white)" class="reveal">Experiência de operação real<br>aplicada à IA.</h2>
+        <p class="slead reveal" style="color:var(--muted2)">Sou Engenheiro de Produção, com cerca de 7 anos de experiência em ambientes operacionais, industriais e administrativos. Minha base profissional foi construída lidando com processos, indicadores, manutenção, rotinas de campo, controle de custos e organização de informações para tomada de decisão.</p>
+        <p class="slead reveal" style="color:var(--muted2);margin-bottom:0">Isso me permite olhar para a IA de forma prática: antes de pensar em ferramenta, eu avalio o fluxo, o gargalo, o dado necessário, o responsável e o impacto real para a operação.</p>
+        <p class="auth-note reveal">A proposta é simples: usar tecnologia para deixar a empresa mais organizada, previsível e eficiente — sem criar complexidade desnecessária para a equipe.</p>
       </div>
       <div class="auth-cards">
         <div class="auth-card reveal">
-          <div class="auth-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-          <div class="auth-card-text">Foco em processo real, não em ferramenta bonita</div>
+          <div class="auth-ico"><svg viewBox="0 0 24 24"><path d="M22 10L12 4 2 10l10 6 10-6z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg></div>
+          <div class="auth-card-text"><strong>Formação em Engenharia de Produção</strong><br>base em processos, produtividade, fluxo, melhoria contínua e eficiência operacional.</div>
         </div>
         <div class="auth-card reveal">
-          <div class="auth-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-          <div class="auth-card-text">Diagnóstico antes de qualquer implementação</div>
+          <div class="auth-ico"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+          <div class="auth-card-text"><strong>Indicadores e gestão operacional</strong><br>experiência criando controles, acompanhando rotinas e transformando dados em visão para decisão.</div>
         </div>
         <div class="auth-card reveal">
-          <div class="auth-ico"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><path d="M20 4h-4m2-2v4"/></svg></div>
-          <div class="auth-card-text">Indicadores que mostram resultado, não vaidade</div>
+          <div class="auth-ico"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div class="auth-card-text"><strong>Processos antes da automação</strong><br>organização do fluxo primeiro, tecnologia depois — para evitar automatizar a bagunça.</div>
         </div>
         <div class="auth-card reveal">
-          <div class="auth-ico"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div class="auth-card-text">Soluções simples que a empresa consegue usar</div>
+          <div class="auth-ico"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+          <div class="auth-card-text"><strong>IA aplicada ao negócio</strong><br>agentes, automações e integrações desenhadas para resolver tarefas reais, não para parecer novidade.</div>
         </div>
       </div>
+    </div>
+    <div class="cred-strip reveal">
+      <div class="cred-item"><div class="cred-num">7 anos</div><div class="cred-label">de experiência em processos, operação, indicadores e rotinas empresariais.</div></div>
+      <div class="cred-item"><div class="cred-num">Processos</div><div class="cred-label">como ponto de partida para qualquer automação com IA.</div></div>
+      <div class="cred-item"><div class="cred-num">WhatsApp</div><div class="cred-label">como interface simples para a equipe usar agentes sem complexidade inicial.</div></div>
     </div>
   </div>
 </section>
@@ -750,8 +799,8 @@ footer{background:var(--ink);border-top:1px solid var(--rule);padding:1.75rem 2.
   <div class="wrap" style="position:relative">
     <div class="cta-card">
       <div class="stag stag-inv reveal">Pronto para começar?</div>
-      <h2 class="reveal">Antes de automatizar, descubra onde sua<br>empresa está travando.</h2>
-      <p class="reveal">Solicite um diagnóstico gratuito e veja quais processos podem ser organizados, melhorados ou apoiados por agentes de IA via WhatsApp.</p>
+      <h2 class="reveal">Antes de contratar automação, descubra onde sua empresa perde tempo, informação e dinheiro.</h2>
+      <p class="reveal">No diagnóstico gratuito, avaliamos seus processos, identificamos gargalos e mostramos onde agentes de IA via WhatsApp podem gerar mais controle, eficiência e previsibilidade.</p>
       <a href="pre-diagnostico.html" class="btn reveal">
         Solicitar diagnóstico gratuito
         <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
@@ -764,7 +813,7 @@ footer{background:var(--ink);border-top:1px solid var(--rule);padding:1.75rem 2.
 <!-- FOOTER -->
 <footer style="background:var(--ink)">
   <div class="foot-brand">Victor Petra <span>|</span> IA &amp; Negócios</div>
-  <div class="foot-copy">© 2026 · Engenharia de Produção + IA para negócios reais</div>
+  <div class="foot-copy">© 2026 · Processos, indicadores e IA aplicada a negócios reais</div>
 </footer>
 
 <script>
