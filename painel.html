@@ -34,6 +34,8 @@ body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--white);hei
 .login-btn{width:100%;background:var(--teal);color:var(--ink);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.925rem;padding:.875rem;border-radius:7px;border:none;cursor:pointer;transition:background .2s}
 .login-btn:hover{background:var(--teal-dark)}
 .login-err{font-size:.78rem;color:#F87171;margin-top:.75rem;min-height:1.2em}
+#panel-status{font-size:.72rem;color:var(--muted2);max-width:240px}
+#panel-status.error{color:#F87171}
 
 /* PANEL LAYOUT */
 #panel{display:none;flex-direction:column;height:100vh}
@@ -170,7 +172,8 @@ select option{background:var(--ink2)}
   <div class="login-box">
     <div class="login-logo">Victor Petra <span>|</span> Painel</div>
     <div class="login-sub">Acesso restrito</div>
-    <input type="password" id="pwd-input" placeholder="Digite a senha" onkeydown="if(event.key==='Enter')doLogin()">
+    <input type="email" id="email-input" placeholder="Seu e-mail" autocomplete="username">
+    <input type="password" id="pwd-input" placeholder="Sua senha" autocomplete="current-password">
     <button class="login-btn" onclick="doLogin()">Entrar</button>
     <div class="login-err" id="login-err"></div>
   </div>
@@ -181,7 +184,9 @@ select option{background:var(--ink2)}
   <div class="topbar">
     <div class="tb-logo">Victor Petra <span>|</span> Painel de Leads</div>
     <div class="tb-stats" id="tb-stats"></div>
+    <div id="panel-status" role="status" aria-live="polite"></div>
     <button class="tb-ghost" onclick="exportarCSV()">Exportar CSV</button>
+    <button class="tb-ghost" onclick="doLogout()">Sair</button>
     <button class="tb-btn" onclick="abrirModal('add')">
       <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       Novo lead
@@ -212,8 +217,10 @@ select option{background:var(--ink2)}
   <div class="modal" id="modal-box"></div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="supabase-client.js"></script>
 <script>
-const SENHA='victor2025';
 const PAIN_LABELS={info_perde:'Perda de informação',retrabalho:'Retrabalho',sem_visib:'Sem visibilidade',dep_pessoa:'Dependência de pessoas',sobrecarr:'Equipe sobrecarregada',crescer:'Difícil crescer',achismo:'Decisões sem dados'};
 const COLUNAS=['novo','conversa','proposta','cliente'];
 let leads=[];
