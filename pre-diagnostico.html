@@ -120,7 +120,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2
 <body>
 
 <nav>
-  <a href="victor-petra-landing.html" class="logo">Victor Petra <span>|</span> IA &amp; Negócios</a>
+  <a href="index.html" class="logo">Victor Petra <span>|</span> IA &amp; Negócios</a>
 
 </nav>
 
@@ -233,7 +233,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2
       </button>
       <button class="btg" onclick="goTo(3)">Voltar</button>
     </div>
-    <p class="hint">Seus dados são usados apenas para o diagnóstico e para contato com Victor. Sem spam.</p>
+    <p class="hint">Seus dados serão armazenados no painel de leads e usados para gerar seu diagnóstico e entrar em contato. Eles não serão exibidos publicamente.</p>
   </div>
 
   <!-- LOADING -->
@@ -273,12 +273,43 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2
         <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.126 1.523 5.867L.057 23.857a.5.5 0 0 0 .609.61l6.098-1.463A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.9 0-3.7-.5-5.27-1.38l-.38-.22-3.92.94.97-3.82-.24-.39A10 10 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
         Falar com Victor no WhatsApp
       </a>
+      <p class="hint" id="lead-save-status" role="status" aria-live="polite"></p>
+      <button class="btg" id="retry-lead" type="button" onclick="tentarSalvarLead()" style="display:none;margin-top:.75rem">Tentar registrar novamente</button>
     </div>
   </div>
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="supabase-client.js"></script>
 <script>
+let leadPendente=null;
+function gerarSubmissionId(){
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{
+    const r=Math.random()*16|0;
+    return (c==='x'?r:(r&0x3|0x8)).toString(16);
+  });
+}
+async function tentarSalvarLead(){
+  const status=document.getElementById('lead-save-status');
+  const button=document.getElementById('retry-lead');
+  if(!leadPendente||!status||!button)return;
+  button.disabled=true;
+  button.textContent='Enviando...';
+  status.textContent='Registrando seu diagnóstico...';
+  try{
+    await window.VPLeads.create(leadPendente);
+    status.textContent='Diagnóstico registrado. Você também pode falar com Victor pelo WhatsApp.';
+    button.style.display='none';
+  }catch(error){
+    status.textContent='Não foi possível registrar seus dados no painel. Seu diagnóstico continua disponível; tente novamente.';
+    button.style.display='inline-flex';
+  }finally{
+    button.disabled=false;
+    button.textContent='Tentar registrar novamente';
+  }
+}
 const A={seg:'',size:'',pain:[],info:[],doc:'',dec:'',nome:'',emp:'',wh:''};
 
 // Radio
@@ -330,7 +361,7 @@ function iniciarDiagnostico(){
   let ti=0;
   const tick=()=>{document.getElementById('ltick').textContent='✓ '+ticks[ti];ti++;if(ti<ticks.length)setTimeout(tick,700);};
   setTimeout(tick,400);
-  setTimeout(()=>{mostrarResultado(calcDiagnostico());},3200);
+  setTimeout(()=>{void mostrarResultado(calcDiagnostico());},3200);
 }
 
 // ─── DIAGNOSTIC ENGINE ──────────────────────────────────────────
@@ -425,7 +456,7 @@ function calcDiagnostico(){
   return{nivel,nome_nivel:MNAMES[nivel],desc_nivel:MDESCS[nivel],insights:selectedInsights.slice(0,3),prioridade:prio,whmsg};
 }
 
-function mostrarResultado(d){
+async function mostrarResultado(d){
   const n=A.nome.split(' ')[0];
   document.getElementById('rname').textContent=`${n}, seu diagnóstico está pronto.`;
   document.getElementById('rdesc').textContent=d.desc_nivel;
@@ -441,20 +472,15 @@ function mostrarResultado(d){
   document.getElementById('wbp').textContent='Com um mapeamento aprofundado, identifico exatamente onde sua operação está perdendo eficiência e proponho soluções práticas com processos e IA. Vamos conversar?';
   document.getElementById('whl').href=`https://wa.me/5567998914806?text=${encodeURIComponent(d.whmsg)}`;
 
-  // Save lead to localStorage for CRM panel
-  try{
-    const lead={
-      id:Date.now(),nome:A.nome,empresa:A.emp,wh:A.wh,
-      seg:A.seg,size:A.size,pain:A.pain,info:A.info,doc:A.doc,dec:A.dec,
-      nivel:d.nivel,nome_nivel:d.nome_nivel,
-      data:new Date().toLocaleDateString('pt-BR'),
-      hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),
-      coluna:'novo',notas:'',origem:'diagnostico'
-    };
-    const leads=JSON.parse(localStorage.getItem('vp_leads')||'[]');
-    leads.unshift(lead);
-    localStorage.setItem('vp_leads',JSON.stringify(leads));
-  }catch(e){}
+  // Prepare an idempotent central submission; retry reuses the same ID.
+  leadPendente={
+    submission_id:gerarSubmissionId(),
+    nome:A.nome,empresa:A.emp,wh:A.wh,
+    seg:A.seg,size:A.size,pain:A.pain,info:A.info,doc:A.doc,dec:A.dec,
+    nivel:d.nivel,nome_nivel:d.nome_nivel,
+    coluna:'novo',notas:'',origem:'diagnostico'
+  };
+  await tentarSalvarLead();
   document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
   document.getElementById('step-result').classList.add('active');
   document.getElementById('pc').textContent='Diagnóstico concluído';
