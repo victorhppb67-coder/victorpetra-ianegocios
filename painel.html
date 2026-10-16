@@ -226,31 +226,110 @@ const COLUNAS=['novo','conversa','proposta','cliente'];
 let leads=[];
 let editId=null;
 
-function doLogin(){
-  const v=document.getElementById('pwd-input').value;
-  if(v===SENHA){
+function setPanelStatus(message,isError){
+  const el=document.getElementById('panel-status');
+  if(!el)return;
+  el.textContent=message||'';
+  el.classList.toggle('error',Boolean(isError));
+}
+
+async function doLogin(){
+  const email=document.getElementById('email-input').value.trim();
+  const password=document.getElementById('pwd-input').value;
+  const error=document.getElementById('login-err');
+  const button=document.querySelector('.login-btn');
+  if(!window.VPAuth||!VPAuth.isConfigured()){
+    error.textContent='O painel ainda não foi conectado ao projeto Supabase.';
+    return;
+  }
+  if(!email||!password){
+    error.textContent='Informe seu e-mail e sua senha.';
+    return;
+  }
+  button.disabled=true;
+  error.textContent='Entrando...';
+  try{
+    await VPAuth.signIn(email,password);
+    if(!await VPAuth.isAdmin()){
+      await VPAuth.signOut();
+      throw new Error('Esta conta não tem acesso ao painel.');
+    }
+    error.textContent='';
     document.getElementById('login').style.display='none';
     document.getElementById('panel').style.display='flex';
-    sessionStorage.setItem('vp_auth','1');
-    carregarLeads();
-  } else {
-    document.getElementById('login-err').textContent='Senha incorreta.';
-    setTimeout(()=>document.getElementById('login-err').textContent='',2000);
+    await carregarLeads({importLegacy:true});
+  }catch(errorValue){
+    error.textContent=errorValue.message==='Esta conta não tem acesso ao painel.'
+      ? errorValue.message
+      : 'Não foi possível entrar. Confira o e-mail, a senha e a conexão.';
+  }finally{
+    button.disabled=false;
   }
 }
-document.getElementById('pwd-input').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 
-if(sessionStorage.getItem('vp_auth')==='1'){
-  document.getElementById('login').style.display='none';
-  document.getElementById('panel').style.display='flex';
-  carregarLeads();
+async function doLogout(){
+  try{
+    if(window.VPAuth) await VPAuth.signOut();
+  }catch(error){
+    setPanelStatus('A sessão local foi encerrada, mas o servidor não confirmou a saída.',true);
+  }
+  leads=[];
+  renderBoard();
+  document.getElementById('panel').style.display='none';
+  document.getElementById('login').style.display='flex';
+  document.getElementById('pwd-input').value='';
 }
 
-function salvarLeads(){localStorage.setItem('vp_leads',JSON.stringify(leads));}
+async function initPanel(){
+  if(!window.VPAuth||!VPAuth.isConfigured()){
+    document.getElementById('login-err').textContent='O painel ainda não foi conectado ao projeto Supabase.';
+    return;
+  }
+  try{
+    const session=await VPAuth.getSession();
+    if(!session)return;
+    if(!await VPAuth.isAdmin()){
+      await VPAuth.signOut();
+      document.getElementById('login-err').textContent='Esta conta não tem acesso ao painel.';
+      return;
+    }
+    document.getElementById('login').style.display='none';
+    document.getElementById('panel').style.display='flex';
+    await carregarLeads({importLegacy:true});
+  }catch(error){
+    document.getElementById('login-err').textContent='Não foi possível restaurar a sessão. Entre novamente.';
+  }
+}
 
-function carregarLeads(){
-  leads=JSON.parse(localStorage.getItem('vp_leads')||'[]');
-  renderBoard();
+async function carregarLeads(options){
+  options=options||{};
+  let importError='';
+  if(options.importLegacy){
+    try{
+      const legacy=JSON.parse(localStorage.getItem('vp_leads')||'[]');
+      if(Array.isArray(legacy)&&legacy.length){
+        setPanelStatus('Importando leads antigos deste navegador...');
+        await VPLeads.importLegacy(legacy);
+        localStorage.removeItem('vp_leads');
+        setPanelStatus('Leads antigos importados.');
+      }
+    }catch(error){
+      importError='A importação dos leads antigos falhou; os dados locais foram preservados para tentar novamente.';
+    }
+  }
+  try{
+    leads=await VPLeads.list();
+    renderBoard();
+    if(importError)setPanelStatus(importError,true);
+  }catch(error){
+    setPanelStatus('Não foi possível carregar os leads. Verifique sua conexão e o acesso da conta.',true);
+  }
+}
+
+function escapeHtml(value){
+  return String(value==null?'':value).replace(/[&<>"']/g,function(char){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char];
+  });
 }
 
 function renderBoard(){
