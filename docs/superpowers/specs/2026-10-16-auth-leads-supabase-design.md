@@ -45,7 +45,7 @@ The project owner creates the Supabase project, creates the single admin account
 - Delete the literal `SENHA` and the `sessionStorage vp_auth` bypass from `painel.html`.
 - Use Supabase Auth sign-in/sign-out and session restoration through the official client.
 - Use only the project URL and public anon key in frontend configuration.
-- Never store credentials in Git, HTML, browser local storage, or build output. Never expose `service_role`.
+- Never store raw passwords or `service_role` keys in Git, HTML, browser storage, or build output. Let the Supabase Auth SDK manage its session tokens using its supported persistence mechanism.
 - Keep RLS enabled and test policies against both anonymous and non-admin authenticated access.
 - Do not enable public registration. The owner account is provisioned in the Supabase dashboard.
 
