@@ -1,6 +1,6 @@
 # Central Leads and Supabase Authentication Implementation Plan
 
-> **For agentic workers:** Implement task-by-task from this plan, preserving the interfaces below. Use checkboxes to track progress.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Fix the landing-page return link and make diagnostic leads centrally available in an owner-authenticated panel backed by Supabase.
 
