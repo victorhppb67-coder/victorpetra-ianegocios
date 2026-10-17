@@ -350,22 +350,21 @@ function renderBoard(){
 }
 
 function cardHTML(l){
-  const pains=(l.pain||[]).slice(0,2).map(p=>`<span class="pain-tag">${PAIN_LABELS[p]||p}</span>`).join('');
-  const dots=[1,2,3,4,5].map(i=>`<div class="mat-mini-dot${i<=(l.nivel||0)?' on':''}"></div>`).join('');
+  const pains=(l.pain||[]).slice(0,2).map(p=>'<span class="pain-tag">'+escapeHtml(PAIN_LABELS[p]||p)+'</span>').join('');
+  const dots=[1,2,3,4,5].map(i=>'<div class="mat-mini-dot'+(i<=(l.nivel||0)?' on':'')+'"></div>').join('');
   const wh=(l.wh||'').replace(/\D/g,'');
-  const whLink=wh?`https://wa.me/55${wh}`:'#';
-  return`<div class="card" onclick="abrirModal('edit','${l.id}')">
-    <div class="card-origem">${l.origem==='manual'?'Manual':'Diagnóstico'}</div>
-    <div class="card-empresa">${l.empresa||'—'}</div>
-    <div class="card-nome">${l.nome||''}</div>
-    ${l.seg?`<div class="card-seg">${l.seg}</div>`:''}
-    ${l.nivel?`<div class="card-mat"><div class="mat-mini">${dots}</div><span class="mat-mini-label">${l.nivel}/5 — ${l.nome_nivel||''}</span></div>`:''}
-    ${pains?`<div class="card-pains">${pains}</div>`:''}
-    <div class="card-footer">
-      <span class="card-date">${l.data||''} ${l.hora||''}</span>
-      ${wh?`<a class="card-wh" href="${whLink}" target="_blank" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.126 1.523 5.867L.057 23.857a.5.5 0 0 0 .609.61l6.098-1.463A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.9 0-3.7-.5-5.27-1.38l-.38-.22-3.92.94.97-3.82-.24-.39A10 10 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg> WhatsApp</a>`:''}
-    </div>
-  </div>`;
+  const whLink=wh?'https://wa.me/55'+wh:'#';
+  let html="<div class=\"card\" onclick=\"abrirModal('edit','"+l.id+"')\">";
+  html+='<div class="card-origem">'+(l.origem==='manual'?'Manual':'Diagnóstico')+'</div>';
+  html+='<div class="card-empresa">'+escapeHtml(l.empresa||'—')+'</div>';
+  html+='<div class="card-nome">'+escapeHtml(l.nome||'')+'</div>';
+  if(l.seg)html+='<div class="card-seg">'+escapeHtml(l.seg)+'</div>';
+  if(l.nivel)html+='<div class="card-mat"><div class="mat-mini">'+dots+'</div><span class="mat-mini-label">'+escapeHtml(l.nivel)+'/5 — '+escapeHtml(l.nome_nivel||'')+'</span></div>';
+  if(pains)html+='<div class="card-pains">'+pains+'</div>';
+  html+='<div class="card-footer"><span class="card-date">'+escapeHtml(l.data||'')+' '+escapeHtml(l.hora||'')+'</span>';
+  if(wh)html+='<a class="card-wh" href="'+whLink+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">WhatsApp</a>';
+  html+='</div></div>';
+  return html;
 }
 
 function abrirModal(tipo,id){
