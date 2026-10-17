@@ -35,9 +35,8 @@
   }
 
   function toLeadRow(lead) {
-    return {
+    const row = {
       submission_id: lead.submission_id || null,
-      legacy_id: lead.legacy_id || null,
       nome: String(lead.nome || "").trim(),
       empresa: String(lead.empresa || "").trim(),
       wh: String(lead.wh || "").trim(),
@@ -51,10 +50,12 @@
       nome_nivel: String(lead.nome_nivel || ""),
       coluna: lead.coluna || "novo",
       notas: String(lead.notas || ""),
-      origem: lead.origem || "diagnostico",
-      data_original: lead.data_original || null,
-      hora_original: lead.hora_original || null
+      origem: lead.origem || "diagnostico"
     };
+    if (lead.legacy_id != null) row.legacy_id = Number(lead.legacy_id);
+    if (lead.data_original != null) row.data_original = String(lead.data_original);
+    if (lead.hora_original != null) row.hora_original = String(lead.hora_original);
+    return row;
   }
 
   window.VPAuth = {
