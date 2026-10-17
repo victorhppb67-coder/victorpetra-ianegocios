@@ -377,29 +377,29 @@ function abrirModal(tipo,id){
     const wh=(l.wh||'').replace(/\D/g,'');
     const whLink=wh?`https://wa.me/55${wh}`:'#';
     const dots=[1,2,3,4,5].map(i=>`<div class="modal-mat-dot${i<=(l.nivel||0)?' on':''}"></div>`).join('');
-    const painTags=(l.pain||[]).map(p=>`<span class="modal-pain-tag">${PAIN_LABELS[p]||p}</span>`).join('');
-    const infoTxt=(l.info||[]).join(', ')||'—';
+    const painTags=(l.pain||[]).map(p=>`<span class="modal-pain-tag">${escapeHtml(PAIN_LABELS[p]||p)}</span>`).join('');
+    const infoTxt=escapeHtml((l.info||[]).join(', ')||'—');
     const docMap={'0':'Nada documentado','1':'Parcialmente documentado','2':'Maioria documentada (desatualizada)','3':'Totalmente documentado'};
     const decMap={'0':'Intuição/experiência','1':'Reuniões sem dados','2':'Planilhas','3':'Dashboards em tempo real'};
     const colBtns=COLUNAS.map(c=>`<button class="act-btn${l.coluna===c?' active':''}" onclick="moverLead('${l.id}','${c}')">${{novo:'Novo',conversa:'Em Conversa',proposta:'Proposta',cliente:'Cliente'}[c]}</button>`).join('');
     box.innerHTML=`
       <button class="modal-close" onclick="fecharModal()">×</button>
-      <div class="modal-tag">${l.origem==='manual'?'Lead manual':'Via diagnóstico'} · ${l.data||''} ${l.hora||''}</div>
-      <div class="modal-empresa">${l.empresa||'—'}</div>
-      <div class="modal-nome">${l.nome||''} · ${l.wh||''}</div>
+      <div class="modal-tag">${l.origem==='manual'?'Lead manual':'Via diagnóstico'} · ${escapeHtml(l.data||'')} ${escapeHtml(l.hora||'')}</div>
+      <div class="modal-empresa">${escapeHtml(l.empresa||'—')}</div>
+      <div class="modal-nome">${escapeHtml(l.nome||'')} · ${escapeHtml(l.wh||'')}</div>
       <div class="modal-section">Maturidade</div>
-      <div class="modal-mat"><div class="modal-mat-dots">${dots}</div><div class="modal-mat-text">${l.nivel||'—'}/5 — ${l.nome_nivel||'—'}</div></div>
+      <div class="modal-mat"><div class="modal-mat-dots">${dots}</div><div class="modal-mat-text">${l.nivel||'—'}/5 — ${escapeHtml(l.nome_nivel||'—')}</div></div>
       <div class="modal-section">Dados da empresa</div>
       <div class="modal-grid">
-        <div class="modal-field"><div class="mf-label">Segmento</div><div class="mf-value">${l.seg||'—'}</div></div>
-        <div class="modal-field"><div class="mf-label">Tamanho</div><div class="mf-value">${l.size||'—'}</div></div>
+        <div class="modal-field"><div class="mf-label">Segmento</div><div class="mf-value">${escapeHtml(l.seg||'—')}</div></div>
+        <div class="modal-field"><div class="mf-label">Tamanho</div><div class="mf-value">${escapeHtml(l.size||'—')}</div></div>
         <div class="modal-field"><div class="mf-label">Informação circula via</div><div class="mf-value">${infoTxt}</div></div>
-        <div class="modal-field"><div class="mf-label">Documentação</div><div class="mf-value">${docMap[l.doc]||'—'}</div></div>
-        <div class="modal-field" style="grid-column:1/-1"><div class="mf-label">Tomada de decisão</div><div class="mf-value">${decMap[l.dec]||'—'}</div></div>
+        <div class="modal-field"><div class="mf-label">Documentação</div><div class="mf-value">${escapeHtml(docMap[l.doc]||'—')}</div></div>
+        <div class="modal-field" style="grid-column:1/-1"><div class="mf-label">Tomada de decisão</div><div class="mf-value">${escapeHtml(decMap[l.dec]||'—')}</div></div>
       </div>
       ${painTags?`<div class="modal-section">Principais dores</div><div class="modal-pains">${painTags}</div>`:''}
       <div class="modal-section">Anotações</div>
-      <textarea class="modal-notes" id="modal-notes" placeholder="Registre observações, próximos passos, histórico...">${l.notas||''}</textarea>
+      <textarea class="modal-notes" id="modal-notes" placeholder="Registre observações, próximos passos, histórico...">${escapeHtml(l.notas||'')}</textarea>
       <div class="modal-section">Mover para</div>
       <div style="display:flex;gap:.5rem;flex-wrap:wrap">${colBtns}</div>
       <div class="modal-actions">
