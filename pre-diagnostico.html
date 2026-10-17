@@ -480,7 +480,7 @@ async function mostrarResultado(d){
     nivel:d.nivel,nome_nivel:d.nome_nivel,
     coluna:'novo',notas:'',origem:'diagnostico'
   };
-  await tentarSalvarLead();
+  void tentarSalvarLead();
   document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
   document.getElementById('step-result').classList.add('active');
   document.getElementById('pc').textContent='Diagnóstico concluído';
