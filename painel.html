@@ -443,46 +443,57 @@ function togglePck(el){el.classList.toggle('on');}
 
 function fecharModal(){document.getElementById('modal-bg').classList.remove('open');}
 
-function moverLead(id,col){
-  const l=leads.find(x=>String(x.id)===String(id));
-  if(l){l.coluna=col;salvarLeads();renderBoard();}
-  // Update button states in modal without closing
-  document.querySelectorAll('.act-btn').forEach(b=>{
-    if(['novo','conversa','proposta','cliente'].some(c=>b.textContent.trim().toLowerCase().includes(c.substring(0,4)))){
-      b.classList.remove('active');
-    }
-  });
-  event.target.classList.add('active');
+async function moverLead(id,col){
+  try{
+    await VPLeads.update(id,{coluna:col});
+    await carregarLeads({importLegacy:false});
+    abrirModal('edit',id);
+  }catch(error){
+    setPanelStatus('Não foi possível mover o lead. Tente novamente.',true);
+  }
 }
 
-function salvarNotas(id){
-  const l=leads.find(x=>String(x.id)===String(id));
-  if(l){l.notas=document.getElementById('modal-notes').value;salvarLeads();renderBoard();}
-  const btn=event.target;btn.textContent='Salvo ✓';setTimeout(()=>btn.textContent='Salvar anotações',1500);
+async function salvarNotas(id){
+  const notas=document.getElementById('modal-notes').value;
+  try{
+    await VPLeads.update(id,{notas:notas});
+    await carregarLeads({importLegacy:false});
+    setPanelStatus('Anotações salvas.');
+  }catch(error){
+    setPanelStatus('Não foi possível salvar as anotações. O texto continua no campo para nova tentativa.',true);
+  }
 }
 
-function deletarLead(id){
+async function deletarLead(id){
   if(!confirm('Excluir este lead?'))return;
-  leads=leads.filter(x=>String(x.id)!==String(id));
-  salvarLeads();renderBoard();fecharModal();
+  try{
+    await VPLeads.remove(id);
+    await carregarLeads({importLegacy:false});
+    fecharModal();
+  }catch(error){
+    setPanelStatus('Não foi possível excluir o lead. Tente novamente.',true);
+  }
 }
 
-function salvarNovoLead(){
+async function salvarNovoLead(){
   const pains=[...document.querySelectorAll('#pain-checks .pck.on')].map(el=>el.dataset.key);
   const lead={
-    id:Date.now(),
     nome:document.getElementById('add-nome').value.trim(),
     empresa:document.getElementById('add-emp').value.trim(),
     wh:document.getElementById('add-wh').value.trim(),
     seg:document.getElementById('add-seg').value,
     pain:pains,info:[],doc:'',dec:'',nivel:0,nome_nivel:'',
-    data:new Date().toLocaleDateString('pt-BR'),
-    hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),
     coluna:'novo',notas:document.getElementById('add-notas').value.trim(),
     origem:'manual'
   };
   if(!lead.nome&&!lead.empresa){alert('Preencha pelo menos o nome ou a empresa.');return;}
-  leads.unshift(lead);salvarLeads();renderBoard();fecharModal();
+  try{
+    await VPLeads.create(lead);
+    await carregarLeads({importLegacy:false});
+    fecharModal();
+  }catch(error){
+    setPanelStatus('Não foi possível adicionar o lead. Confira os campos e tente novamente.',true);
+  }
 }
 
 function exportarCSV(){
