@@ -38,7 +38,8 @@ alter table public.vp_leads enable row level security;
 revoke all on public.vp_admins from anon, authenticated;
 grant select on public.vp_admins to authenticated;
 revoke all on public.vp_leads from anon, authenticated;
-grant insert on public.vp_leads to anon, authenticated;
+grant insert (submission_id, nome, empresa, wh, seg, size, pain, info, doc, dec, nivel, nome_nivel, coluna, notas, origem) on public.vp_leads to anon;
+grant insert on public.vp_leads to authenticated;
 grant select, update, delete on public.vp_leads to authenticated;
 
 drop policy if exists "vp_admins_read_own_membership" on public.vp_admins;
@@ -50,7 +51,8 @@ drop policy if exists "vp_leads_public_diagnostic_insert" on public.vp_leads;
 create policy "vp_leads_public_diagnostic_insert"
   on public.vp_leads for insert to anon
   with check (
-    origem = 'diagnostico'
+    submission_id is not null
+    and origem = 'diagnostico'
     and coluna = 'novo'
     and notas = ''
     and legacy_id is null
