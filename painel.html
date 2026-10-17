@@ -492,7 +492,7 @@ async function salvarNovoLead(){
     coluna:'novo',notas:document.getElementById('add-notas').value.trim(),
     origem:'manual'
   };
-  if(!lead.nome||!lead.empresa||lead.wh.replace(/\\D/g,'').length<5){alert('Preencha nome, empresa e um WhatsApp válido.');return;}
+  if(!lead.nome||!lead.empresa||lead.wh.replace(/\D/g,'').length<5){alert('Preencha nome, empresa e um WhatsApp válido.');return;}
   try{
     await VPLeads.create(lead);
     await carregarLeads({importLegacy:false});
