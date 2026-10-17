@@ -420,9 +420,9 @@ function abrirModal(tipo,id){
       <div class="modal-tag">Adicionar lead manualmente</div>
       <div class="modal-empresa" style="font-size:1.1rem;margin-bottom:1.25rem">Novo Lead</div>
       <div class="add-grid">
-        <div class="add-field add-full"><label>Nome</label><input type="text" id="add-nome" placeholder="Nome do contato"></div>
-        <div class="add-field add-full"><label>Empresa</label><input type="text" id="add-emp" placeholder="Nome da empresa"></div>
-        <div class="add-field"><label>WhatsApp</label><input type="tel" id="add-wh" placeholder="(67) 99999-9999"></div>
+        <div class="add-field add-full"><label>Nome</label><input type="text" id="add-nome" placeholder="Nome do contato" required maxlength="120"></div>
+        <div class="add-field add-full"><label>Empresa</label><input type="text" id="add-emp" placeholder="Nome da empresa" required maxlength="160"></div>
+        <div class="add-field"><label>WhatsApp</label><input type="tel" id="add-wh" placeholder="(67) 99999-9999" required maxlength="40"></div>
         <div class="add-field"><label>Segmento</label>
           <select id="add-seg">
             <option value="">Selecione</option>
@@ -492,7 +492,7 @@ async function salvarNovoLead(){
     coluna:'novo',notas:document.getElementById('add-notas').value.trim(),
     origem:'manual'
   };
-  if(!lead.nome&&!lead.empresa){alert('Preencha pelo menos o nome ou a empresa.');return;}
+  if(!lead.nome||!lead.empresa||lead.wh.replace(/\\D/g,'').length<5){alert('Preencha nome, empresa e um WhatsApp válido.');return;}
   try{
     await VPLeads.create(lead);
     await carregarLeads({importLegacy:false});
